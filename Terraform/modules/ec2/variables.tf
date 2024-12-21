@@ -26,3 +26,7 @@ variable "ec2_name" {
 variable "ec2_key" {
     type = string
 }
+
+variable "iam_ec2_instance_name" {
+  type = string
+}

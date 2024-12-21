@@ -28,5 +28,9 @@ module "ec2" {
     ec2_name = var.ec2_name
     instance_type = var.instance_type
     ec2_key = var.ec2_key
-    #Change the ami in the ec2 module 
+    iam_ec2_instance_name = module.iam_role.iam_instance_profile_name
+}
+
+module "iam_role" {
+    source = "./modules/iam_role"
 }
