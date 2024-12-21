@@ -10,5 +10,5 @@ public_route_table_name = "public_route_table"
 
 ec2-sg-name = "public-sg"
 instance_type = "t2.micro"
-ec2_name = "web"
+ec2_name = "ivolve-ec2"
 ec2_key = "Slave"
