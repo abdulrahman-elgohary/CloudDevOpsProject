@@ -309,9 +309,10 @@
   owners = ["amazon"]
   filter {
     name = "name"
-    values = ["amzn2-ami-hvm*"]
+    values = ["al2023-ami-2023.6.20241111.0-kernel*"] # Pattern for Amazon Linux 2023 AMIs
+    }
   }
-  }
+
   
   variable "instance_type" {
       type = string
@@ -424,7 +425,17 @@
 terraform init
 terraform apply
 ```
-
+---
+## Notes
+- Run the following AWS CLI command to verify the exact AMI name:
+  ```bash
+  aws ec2 describe-images \
+    --owners amazon \
+    --filters "Name=name,Values=al2023*" \
+    --region us-east-1 \
+    --query "Images[*].[ImageId,Name]" \
+    --output table
+  ```
 
 
 
