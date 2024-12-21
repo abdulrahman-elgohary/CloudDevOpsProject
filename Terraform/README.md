@@ -418,7 +418,12 @@
     value = aws_iam_instance_profile.ec2_profile.name
   }
   ```
+## Step 8: Apply Terraform resources
 
+```bash
+terraform init
+terraform apply
+```
 
 
 
