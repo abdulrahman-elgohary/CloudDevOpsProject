@@ -113,6 +113,7 @@
     }
   }
   ```
+---
 ## Step 2: Start creating the modules
 - Create the `main.tf` root file
   ```bash
@@ -123,6 +124,7 @@
   mkdir -p modules/{vpc,subnet,ec2,security_group}
   tocuh modules/{vpc,subnet,ec2,security_group}/{main.tf,variables.tf,terraform.tfvars,outputs.tf}
   ```
+---
 ## Step 3: Create the `vpc` module.
 - Define the following variables in `variables.tf`:
   ```bash
@@ -168,6 +170,7 @@
     }
   }
   ```
+---
 ## Step 4: Create the `subnet` module.
 
 - Define the following variables in `variables.tf`:
@@ -236,6 +239,7 @@
   }
 
   ```
+---
 ## Step 5: Create the `security_group` module.
 
 - Define the following variables in `variables.tf`:
@@ -293,6 +297,125 @@
     tags = {
       Name = var.ec2-sg-name
     }
+  }
+  ```
+---
+## Step 6: Create the `ec2` module.
+
+- Define the following variables in `variables.tf`:
+  ```bash  
+  data "aws_ami" "Amazon-linux-ami" {
+  most_recent = true
+  owners = ["amazon"]
+  filter {
+    name = "name"
+    values = ["amzn2-ami-hvm*"]
+  }
+  }
+  
+  variable "instance_type" {
+      type = string
+  }
+  
+  variable "sg_id" {
+      type = string
+  }
+  
+  variable "subnet_id" {
+      type = string
+  }
+  
+  variable "ec2_name" {
+       type = string
+  }
+  
+  variable "ec2_key" {
+      type = string
+  }
+  
+  variable "iam_ec2_instance_name" {
+    type = string
+  }
+  ```
+- Define the resources inside `main.tf` file
+  ```bash
+   #Create an Ec2 in a public subnet
+  resource "aws_instance" "ec2_instance" {
+    ami           = data.aws_ami.Amazon-linux-ami.id
+    instance_type = var.instance_type
+    subnet_id     = var.subnet_id
+    security_groups = [var.sg_id]
+    key_name = var.ec2_key
+    iam_instance_profile = var.iam_ec2_instance_name
+    tags = {
+      Name = var.ec2_name
+    }
+  }
+  ```
+---
+## Step 7: Create the `iam_role` module.
+
+- Define the resources inside `main.tf` file
+```bash
+ #Create Iam Role
+  resource "aws_iam_role" "ec2_role" {
+    name = "ec2-cloudwatch-role"
+  
+    assume_role_policy = <<EOF
+  {
+    "Version": "2012-10-17",
+    "Statement": [
+      {
+        "Action": "sts:AssumeRole",
+        "Principal": {
+          "Service": "ec2.amazonaws.com"
+        },
+        "Effect": "Allow",
+        "Sid": ""
+      }
+    ]
+  }
+  EOF
+  }
+  #Create Iam cloudwatch policy
+  resource "aws_iam_policy" "cloudwatch_policy" {
+    name        = "cloudwatch-metrics-policy"
+    description = "Policy to allow EC2 to send metrics to CloudWatch"
+    policy      = <<EOF
+  {
+      "Version": "2012-10-17",
+      "Statement": [
+          {
+              "Effect": "Allow",
+              "Action": [
+                  "cloudwatch:PutMetricData",
+                  "logs:CreateLogStream",
+                  "logs:PutLogEvents",
+                  "logs:CreateLogGroup"
+              ],
+              "Resource": "*"
+          }
+      ]
+  }
+  EOF
+  }
+  
+  #Attach policy to role
+  resource "aws_iam_role_policy_attachment" "cloudwatch_policy_attach" {
+    policy_arn = aws_iam_policy.cloudwatch_policy.arn
+    role = aws_iam_role.ec2_role.name
+  }
+  
+  #Create Iam Instance Profile
+  resource "aws_iam_instance_profile" "ec2_profile" {
+    name = "ec2-cloudwatch-profile"
+    role = aws_iam_role.ec2_role.name
+  }
+  ```
+- Define the required outputs to be used in other modules in `outputs.tf` file
+  ```bash
+  output "iam_instance_profile_name" {
+    value = aws_iam_instance_profile.ec2_profile.name
   }
   ```
 
