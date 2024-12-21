@@ -64,7 +64,7 @@ touch ansible.cfg
 [defaults]
 inventory = aws_ec2.yml
 ansible_user = ec2-user
-ansible_ssh_private_key_file = ~/Graduation_Project/Ansible/Slave.pem
+private_key_file = ~/Graduation_Project/Ansible/Slave.pem
 
 [inventory]
 enable_plugins = amazon.aws.aws_ec2, aws_ec2, yaml, ini, host_list
