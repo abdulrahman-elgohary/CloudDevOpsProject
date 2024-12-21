@@ -1,6 +1,6 @@
 ## Ansible Structure 
 
-![image](https://github.com/user-attachments/assets/6230abc7-8c20-4020-9b23-424e2699b4b1)
+![image](https://github.com/user-attachments/assets/7a8818c8-867a-4c5d-ab15-8614c7c889b7)
 
 ## Prequesites 
 
