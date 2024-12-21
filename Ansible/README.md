@@ -1,3 +1,7 @@
+## Ansible Structure 
+
+![image](https://github.com/user-attachments/assets/6230abc7-8c20-4020-9b23-424e2699b4b1)
+
 ## Prequesites 
 
 ### 1. Install Ansible on the Control Node  
@@ -76,7 +80,7 @@ become_ask_pass = False
 ```
 ---
 
-### 3. Verify Ansible Installation  
+### 3. Verify Ansible Connectivity  
 
 
 3.2. **Ping the managed host to verify connectivity**:  
@@ -93,3 +97,14 @@ ansible all -m ping
 ```bash
 ansible all -m ping -vvvv
 ```
+---
+## Steps:
+
+### 1. Create the required `roles`
+
+```bash
+mkdir -p roles/{Preinstall/tasks,Git/tasks,Docker/tasks,Java/tasks,Jenkins/tasks,SonarQube/tasks}
+touch roles/{Preinstall/tasks,Git/tasks,Docker/tasks,Java/tasks,Jenkins/tasks,SonarQube/tasks}/main.yml
+```
+![image](https://github.com/user-attachments/assets/0a196d72-55c0-49f2-882d-d6285dcb2335)
+
