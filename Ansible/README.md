@@ -23,7 +23,7 @@ source ansible-env/bin/activate
 ```
 1.5 **Install Ansible Core inside the virtual environment**:
 ```bash
-pip install ansible==2.8
+pip install ansible
 ```
 - Each time you will use ansible you will need to activate the virtual environment.
 - It’s a good practice to use a Python virtual environment to isolate dependencies.
@@ -38,9 +38,45 @@ pip install boto3 botocore
 ```
 
 2.2. **Create the Dynamic Inventory Configuration File**:  
-```bash
-sudo vim inventory
 ```
+nano aws_ec2.yml
+```
+- Add the following content to `aws_ec2.yml` file to configure the plugin:
+```yaml
+plugin: aws_ec2
+regions:
+  - us-east-1        # Replace with your AWS region
+filters:
+  instance-state-name: running     # Group by tags
+hostnames:
+  - tag:Name          # Use the Name tag as the hostname
+```
+
+2.3. **Configure Ansible Configuration File**:
+- Create `ansible.cfg` file.
+- Move the private key of your instances to the same path in the configuration file.
+- Make sure of the user that you will ssh to using ansible.
+```bash
+touch ansible.cfg
+```
+- Insert the following enty to `ansible.cfg` file
+```ini
+[defaults]
+inventory = aws_ec2.yml
+ansible_user = ec2-user
+ansible_ssh_private_key_file = ~/Graduation_Project/Ansible/Slave.pem
+
+[inventory]
+enable_plugins = amazon.aws.aws_ec2, aws_ec2, yaml, ini, host_list
+
+[privilege_escalation]
+become = True
+become_method = sudo
+become_user = root
+become_ask_pass = False
+```
+
+
 
 2.2. **Add managed hosts to the inventory**:  
     ```
@@ -63,7 +99,7 @@ sudo vim inventory
     vim ansible.cfg
     ```
     - Add the following entry
-    ``` 
+    ```
     [defaults]
     inventory= ./inventory
     remote_user= $USER
