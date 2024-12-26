@@ -72,7 +72,7 @@ pipeline {
             steps {
                 script {
                     pushToGithub([
-                        gitRepo: REPO_SSH
+                        gitRepo: REPO_SSH,
                         githubEmail: GITHUB_EMAIL,
                         githubUsername: GITHUB_USERNAME,
                         branch: BRANCH
