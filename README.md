@@ -328,21 +328,18 @@ kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/st
 
 7.3 **Expose the Argo CD Server**
 
-- If you want external access, edit the argocd-server service to use a NodePort or LoadBalancer:
-
 ```bash
-kubectl edit svc argocd-server -n argocd
+kubectl port-forward svc/argocd-server -n argocd 9090:443
 ```
-- Change the `type` to `NodePort`:
-- Save and get the NodePort:
+- You can now access Argo CD at https://localhost:9090.
+
+![image](https://github.com/user-attachments/assets/3118e78c-b357-4480-aa1f-86c09bedbc23)
+
+7.4 **Login to Argo CD**
+
+- Retrieve the initial admin password:
 
 ```bash
-kubectl get svc argocd-server -n argocd
+kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
 ```
-![image](https://github.com/user-attachments/assets/9e5572ba-55f3-4d63-9025-e91aa12696d4)
-
-- Access it via the Minikube IP and NodePort:
-
-```bash
-
-
+- Login with the username `admin` and the password retrieved earlier.
