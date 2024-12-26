@@ -9,6 +9,7 @@ pipeline {
         DOCKER_IMAGE_NAME = 'ivolve-app'
         DOCKERHUB_USERNAME = 'gohary101'
         REGISTRY_CREDENTIALS = 'Docker-Hub'
+        GITHUB_CREDENTIALS = 'GitHub'
         KUBECONFIG = 'kubeconfig'
         REPO_URL = 'https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git'
         BRANCH = 'main'
@@ -66,7 +67,9 @@ pipeline {
         stage('Push To Github') {
             steps {
                 script {
-                    pushToGithub()
+                    pushToGithub([
+                        registryCredentials: GITHUB_CREDENTIALS
+                        ])
 
                 }
             }
