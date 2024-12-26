@@ -1,0 +1,229 @@
+---
+# - name: Update APT repositories and cache on Debian/Ubuntu
+#   ansible.builtin.apt:
+#     update_cache: yes
+#     force_apt_get: yes
+#     cache_valid_time: 3600
+
+# - name: Upgrade all packages
+#   apt:
+#     upgrade: dist
+#     force_apt_get: yes
+
+# - name: Set up Postgres 14 repo
+#   ansible.builtin.shell: |
+#     echo "deb http://apt.postgresql.org/pub/repos/apt $(lsb_release -cs)-pgdg main" > /etc/apt/sources.list.d/pgdg.list
+#     wget --quiet -O - https://www.postgresql.org/media/keys/ACCC4CF8.asc | sudo apt-key add -
+#   notify: Update the system
+  
+# - name: FLush
+#   meta: flush_handlers
+
+# - name: Installing PostgreSQL
+#   ansible.builtin.package:
+#     name: postgresql-14
+#     state: present
+
+
+# - name: Ensure PostgreSQL is listening on *
+#   lineinfile:
+#     dest: /etc/postgresql/14/main/postgresql.conf
+#     regexp: '^listen_addresses\s*='
+#     line: "listen_addresses='*'"
+#     state: present
+#   notify: Restart PostgreSQL
+
+# - name: FLush
+#   meta: flush_handlers
+
+
+# - name: Add new configuration to "pg_hba.conf"
+#   blockinfile:
+#     dest: /etc/postgresql/14/main/pg_hba.conf
+#     block: |
+#       host    all             all             0.0.0.0/0                md5
+#       host    all             all             ::/0                     md5
+#   notify: Restart PostgreSQL
+
+# - name: FLush
+#   meta: flush_handlers
+
+# - name: Change the default password of postgres user
+#   ansible.builtin.shell: |
+#     echo "postgres:{{pg_password}}" | chpasswd
+
+# - name: Create a user for the database
+#   become_user: postgres
+#   community.postgresql.postgresql_user:
+#     name: "{{db_user}}" #Setting the user for Sonar
+#     password: "{{db_password}}" #Setting the password for the Sonar user 
+#     state: present
+#     role_attr_flags: CREATEDB,SUPERUSER,CREATEROLE
+#     encrypted: yes
+#     login_user: "{{pg_user}}"
+#     login_password: "{{pg_password}}"
+#     db: postgres
+
+# - name: Create a database for the application
+#   become_user: postgres
+#   community.postgresql.postgresql_db:
+#     name: "{{db_name}}"
+#     state: present
+#     login_user: "{{pg_user}}"
+#     login_password: "{{pg_password}}"
+#     owner: "{{db_user}}"
+
+
+# - name: Set the privliges for sonar user 
+#   become_user: postgres
+#   community.postgresql.postgresql_privs:
+#     roles: "{{db_user}}" #Setting the user for Sonar
+#     type: database
+#     priv: ALL
+#     db: "{{db_name}}"
+
+
+# - name: Start and enable PostgreSQL service
+#   ansible.builtin.service:
+#     name: postgresql
+#     state: started
+#     enabled: true
+  
+
+
+    
+
+# - name: Ensure vm.max_map_count is set correctly
+#   ansible.builtin.sysctl:
+#     name: vm.max_map_count
+#     value: 262144
+#     state: present
+#     reload: yes
+
+
+# - name: Persist vm.max_map_count in sysctl.conf
+#   ansible.builtin.blockinfile:
+#     path:  /etc/sysctl.conf
+#     state: present
+#     block: |
+#       vm.max_map_count=262144
+#       fs.file-max=65536
+#       ulimit -n 65536
+#       ulimit -u 4096
+
+
+# - name: Download SonarQube
+#   ansible.builtin.get_url:
+#     url: https://binaries.sonarsource.com/Distribution/sonarqube/sonarqube-9.9.1.69595.zip
+#     dest: /tmp/sonarqube.zip
+
+
+# - name: Extract SonarQube
+#   ansible.builtin.unarchive:
+#     src: /tmp/sonarqube.zip
+#     dest: /opt
+#     remote_src: yes
+
+
+
+# - name: Create SonarQube group
+#   ansible.builtin.group:
+#     name: "{{sonar_group}}"
+#     state: present
+
+# - name: Create SonarQube user
+#   ansible.builtin.user:
+#     name: "{{sonar_user}}"
+#     group: "{{sonar_group}}"
+#     home: /opt/sonarqube-{{version}}
+#     state: present
+
+# - name: Change ownership of SonarQube directory
+#   ansible.builtin.file:
+#     path: /opt/sonarqube-{{version}}
+#     owner: "{{sonar_user}}"
+#     group: "{{sonar_group}}"
+#     recurse: yes
+#     state: directory
+
+# - name: SonarQube configuration.
+#   blockinfile:
+#     path: /opt/sonarqube-{{version}}/conf/sonar.properties
+#     state: present
+#     block: |
+#       sonar.jdbc.username={{db_user}}
+#       sonar.jdbc.password={{db_password}}
+#       sonar.web.host=0.0.0.0
+#       sonar.web.port=9000
+#       sonar.jdbc.url=jdbc:postgresql://localhost:5432/{{db_name}}
+#       sonar.web.javaAdditionalOpts=-server
+#       sonar.log.level=INFO
+#       sonar.path.logs=logs
+
+
+    
+# - name: Create SonarQube service file
+#   ansible.builtin.blockinfile:
+#     dest: /etc/systemd/system/sonar.service
+#     create: true
+#     backup: yes
+#     state: present
+#     block: | 
+#       [Unit]
+
+#       Description=SonarQube service
+      
+#       After=syslog.target network.target
+
+#       [Service]
+
+#       Type=forking
+
+#       ExecStart=/opt/sonarqube-{{version}}/bin/linux-x86-64/sonar.sh start
+
+#       ExecStop=/opt/sonarqube-{{version}}/bin/linux-x86-64/sonar.sh stop
+
+#       User=sonar
+
+#       Group=sonar
+
+#       Restart=always
+
+#       LimitNOFILE=65536
+
+#       LimitNPROC=4096
+
+#       [Install]
+
+#       WantedBy=multi-user.target
+#   notify: 
+#     - Restart SystemD
+#     - Restart SonarQube
+
+# - name: flush_handlers
+#   meta: flush_handlers
+
+
+- name: Download Sonnar Scanner 
+  ansible.builtin.get_url:
+    url:  https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/sonar-scanner-cli-5.0.1.3006-linux.zip
+    dest: /tmp/sonar_scanner.zip
+
+
+- name: Extract Sonnar Scanner
+  ansible.builtin.unarchive:
+    src: /tmp/sonar_scanner.zip
+    dest: /opt
+    remote_src: yes
+
+- name: Exportin Environmental Variables
+  ansible.builtin.shell: |
+    echo "export PATH=$PATH:/opt/sonar-scanner-5.0.1.3006-linux/bin" >> /home/{{ansible_user}}/.bashrc
+    echo "export SONAR_SCANNER_HOME=/opt/sonar-scanner-5.0.1.3006-linux" >> /home/{{ansible_user}}/.bashrc
+    . /home/{{ansible_user}}/.bashrc
+  args:
+    executable: /bin/bash
+  notify: Update the system
+
+- name: flush_handlers
+  meta: flush_handlers

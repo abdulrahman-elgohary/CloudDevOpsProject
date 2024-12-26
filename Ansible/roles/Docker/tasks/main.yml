@@ -1,0 +1,29 @@
+---
+- name: Adding Docker Repo Key
+  ansible.builtin.shell: |
+    curl -fsSL https://download.docker.com/linux/ubuntu/gpg | sudo tee /usr/share/keyrings/docker-keyring.asc > /dev/null
+  
+- name: Adding Docker Repository
+  ansible.builtin.apt_repository:
+    repo: "deb [arch=amd64 signed-by=/usr/share/keyrings/docker-keyring.asc] https://download.docker.com/linux/ubuntu focal stable"
+  notify: Update System for Docker
+
+- name: flush the handlers
+  meta: flush_handlers
+
+- name: Installing Docker
+  ansible.builtin.apt:
+    name: docker-ce
+    state: present
+
+- name: Enable and Run docker
+  ansible.builtin.systemd:
+    name: docker
+    state: started
+    enabled: yes
+
+- name: Adding User to Docker Group
+  ansible.builtin.user:
+    name: "{{ ansible_user }}"
+    groups: docker
+    append: yes

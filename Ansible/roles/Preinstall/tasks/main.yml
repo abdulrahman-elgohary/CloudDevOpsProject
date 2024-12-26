@@ -1,0 +1,31 @@
+---
+#Update the system
+- name: Update the system
+  ansible.builtin.apt:
+    update_cache: yes
+    upgrade: yes
+
+#Install The Required Packages
+- name: Install necessary packages 
+  ansible.builtin.package:
+    name: "{{item}}"
+    state: present
+  loop:
+      - git
+      - openjdk-17-jdk
+      - curl
+      - acl #This to make ansible able to write on /tmp which will make tasks able to use postgres user
+      - wget
+      - unzip
+      - net-tools
+      - apt-transport-https #Allowing Download Over HTTPS - Change it for Centos Os
+      - vim
+      - ca-certificates   ##Ensures SSL/TLS
+      - software-properties-common #Allows Adding Repository easily
+      - python3-pip
+
+- name: Install psycopg2 
+  ansible.builtin.pip:
+    name: psycopg2-binary
+    state: present
+

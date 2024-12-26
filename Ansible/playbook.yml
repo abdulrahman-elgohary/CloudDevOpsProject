@@ -1,0 +1,21 @@
+---
+- name: Target EC2 instances with tag Name=ivolve-ec2
+  hosts: tag_ivolve_ec2  # This corresponds to the group created by keyed_groups
+  become: true
+
+  roles:
+
+  - Preinstall
+  
+
+  - Docker
+
+
+  - Jenkins
+
+
+  - SonarQube
+
+
+  
+  

@@ -1,0 +1,11 @@
+db_name : "sonarqube"
+db_password : "123"
+db_user : "sonar"
+
+pg_user: "postgres"
+pg_password: "123"
+
+
+sonar_user: sonar
+sonar_group: sonar
+version: 9.9.1.69595
