@@ -101,7 +101,7 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
 
 4.3 **Set Up a Jenkins Slave**
 
-- **Launch another Server and Install Java.**
+- **Launch another Server ssh to it and Install Java.**
   
   ```bash
   sudo apt install openjdk-17-jdk
@@ -119,6 +119,16 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
    ```bash
    sudo apt install docker.io -y
    ```
+- **Generate a ssh key to make the slave able to push to Github**
+
+```bash
+ssh-keygen -t rsa -b 4096
+```
+- **Copy the conent of `~/.ssh/id_rsa.pub`**
+- Navigate to Github Account > `Settings` > `SSH and GPG Keys` > Paste the Content here and Add the SSH Key
+
+![image](https://github.com/user-attachments/assets/1e1bc4b1-5ed5-485d-9a6e-de5d4aae5e83)
+
 - Navigate to Manage Jenkins > Manage Nodes and Clouds > New Node.
 - Name the node (e.g., k8s-slave) and choose Permanent Agent.
 
