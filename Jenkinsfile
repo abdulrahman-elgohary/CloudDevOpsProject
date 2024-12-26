@@ -70,8 +70,8 @@ pipeline {
             steps {
                 script {
                     pushToGithub([
-                        registryCredentials: GITHUB_CREDENTIALS
-                        githubEmail: GITHUB_EMAIL
+                        registryCredentials: GITHUB_CREDENTIALS,
+                        githubEmail: GITHUB_EMAIL,
                         githubUsername: GITHUB_USERNAME
                         ])
 
