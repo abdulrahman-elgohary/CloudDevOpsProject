@@ -302,5 +302,44 @@ chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 kubectl version --client
 ```
+6.6 **Install Kubectl Compeletion**
+
+```bash
+sudo apt-get install -y bash-completion
+source <(kubectl completion bash)
+source ~/.bashrc
+```
+---
 ### Step 7: Install ArgoCd On the Minikube Cluster 
+
+7.1 **Create a Namespace for Argo CD**
+
+```bash
+kubectl create namespace argocd
+```
+7.2 **Install Argo CD**
+
+```bash
+kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
+```
+
+7.3 **Expose the Argo CD Server**
+
+- If you want external access, edit the argocd-server service to use a NodePort or LoadBalancer:
+
+```bash
+kubectl edit svc argocd-server -n argocd
+```
+- Change the `type` to `NodePort`:
+- Save and get the NodePort:
+
+```bash
+kubectl get svc argocd-server -n argocd
+```
+![image](https://github.com/user-attachments/assets/9e5572ba-55f3-4d63-9025-e91aa12696d4)
+
+- Access it via the Minikube IP and NodePort:
+
+```bash
+
 
