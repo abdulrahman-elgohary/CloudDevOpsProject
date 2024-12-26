@@ -152,7 +152,7 @@ shared-lib/
     ├── buildJar.groovy
     ├── sonarQubeTest.groovy
     ├── buildandPushImage.groovy
-    ├── deployOnOpenShift.groovy
+    ├── deployOnK8s.groovy
 ```
 4.5 **Install Sonnar Qube Scanner Plugin**
 
