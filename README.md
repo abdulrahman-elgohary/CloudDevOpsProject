@@ -302,3 +302,5 @@ chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 kubectl version --client
 ```
+### Step 7: Install ArgoCd On the Minikube Cluster 
+
