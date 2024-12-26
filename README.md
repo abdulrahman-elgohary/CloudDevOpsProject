@@ -267,6 +267,23 @@ def call(Map envVars) {
 ```bash
 sudo chmod 662 /var/run/docker.sock
 ```
+- Start creating the `pushToGithub.groovy` file
+  
+```groovy
+def call(Map envVars) {
+    sh """
+    git config user.name "${envVars.githubUsername}"
+    git config user.email "${envVars.githubEmail}"
+    git remote set-url origin ${envVars.gitRepo}
+    git checkout ${envVars.branch}
+    git pull origin ${envVars.branch}
+    git add .
+    git commit -m "Automated commit by Jenkins" || echo "No changes to commit"
+    git push origin ${envVars.branch}
+    """
+}
+```
+
 ---
 ### Step 5. Create Required Ceredentials
   
@@ -358,3 +375,4 @@ kubectl port-forward svc/argocd-server -n argocd 9090:443
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
 ```
 - Login with the username `admin` and the password retrieved earlier.
+
