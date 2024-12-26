@@ -261,4 +261,44 @@ sudo chmod 662 /var/run/docker.sock
   
 ![image](https://github.com/user-attachments/assets/4848a79d-1a99-4775-a5de-2fc4a0bcf515)
 
-###
+### Step 6. Create an Ec2 and Install `Minikube` on it 
+- Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
+- SSH to the Ec2 and install Minikube like the following steps
+6.1 **Upate the system**
+  
+```bash
+sudo apt update
+```
+6.2 **Install Docker**
+
+```bash
+sudo apt install -y docker.io
+```
+6.3 **Add the user system to the docker group**
+
+```bash
+sudo usermod -aG docker $USER
+```
+6.4 **Download and Install Minikube**
+
+```bash
+curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+```
+- Move the binary for global access
+
+```bash
+sudo install minikube-linux-amd64 /usr/local/bin/minikube
+```
+- Start Minikube
+
+```bash
+minikube start --driver=docker
+```
+6.5 **Install Kubectl** 
+
+```bash
+curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
+chmod +x kubectl
+sudo mv kubectl /usr/local/bin/
+kubectl version --client
+```
