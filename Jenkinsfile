@@ -74,7 +74,7 @@ pipeline {
                         registryCredentials: GITHUB_CREDENTIALS,
                         githubEmail: GITHUB_EMAIL,
                         githubUsername: GITHUB_USERNAME,
-                        repoName: REPO_NAME
+                        branch: BRANCH
                         ])
 
                 }
