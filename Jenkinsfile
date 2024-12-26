@@ -10,6 +10,8 @@ pipeline {
         DOCKERHUB_USERNAME = 'gohary101'
         REGISTRY_CREDENTIALS = 'Docker-Hub'
         GITHUB_CREDENTIALS = 'GitHub'
+        GITHUB_USERNAME = "abdulrahman-elgohary"
+        GITHUB_EMAIL = "abdulrahmanelgohary101@gmail.com"
         KUBECONFIG = 'kubeconfig'
         REPO_URL = 'https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git'
         BRANCH = 'main'
@@ -69,6 +71,8 @@ pipeline {
                 script {
                     pushToGithub([
                         registryCredentials: GITHUB_CREDENTIALS
+                        githubEmail: GITHUB_EMAIL
+                        githubUsername: GITHUB_USERNAME
                         ])
 
                 }
