@@ -264,6 +264,9 @@ sudo chmod 662 /var/run/docker.sock
 ### Step 6. Create an Ec2 and Install `Minikube` on it 
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
+
+![image](https://github.com/user-attachments/assets/9dfd1d45-2edc-42b4-8e4d-4b29b95d240f)
+
 6.1 **Upate the system**
   
 ```bash
