@@ -14,6 +14,7 @@ pipeline {
         GITHUB_EMAIL = "abdulrahmanelgohary101@gmail.com"
         KUBECONFIG = 'kubeconfig'
         REPO_URL = 'https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git'
+        REPO_NAME = 'CloudDevOpsProject'
         BRANCH = 'main'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
     }
@@ -72,7 +73,8 @@ pipeline {
                     pushToGithub([
                         registryCredentials: GITHUB_CREDENTIALS,
                         githubEmail: GITHUB_EMAIL,
-                        githubUsername: GITHUB_USERNAME
+                        githubUsername: GITHUB_USERNAME,
+                        repoName: REPO_NAME
                         ])
 
                 }
