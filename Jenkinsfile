@@ -63,6 +63,15 @@ pipeline {
             }
         }
 
+        stage('Push To Github') {
+            steps {
+                script {
+                    pushToGithub()
+
+                }
+            }
+        }
+
     }
 
     post {
