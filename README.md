@@ -1,4 +1,4 @@
-# CloudDevOpsProject
+  # CloudDevOpsProject
 
 This repository contains the infrastructure, configuration, and deployment setup for a cloud-based application using DevOps principles. The project is structured to demonstrate the use of modern tools such as `Docker`, `Terraform`, `Ansible`, `Jenkins` and `Argocd` to achieve seamless CI/CD workflows and infrastructure as code.
 
@@ -13,9 +13,14 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [Step 2: Configure the Infrastructure using Ansible](#step-2-configure-the-infrastructure-using-ansible)
   - [Step 3: Jenkins Configuration](#step-3-jenkins-configuartion)
   - [Step 4: Setup Jenkins Slave](#step-4-setup-jenkins-slave)
-  - [Create the Shared Library](#create-the-shared-library)
-  - [Install SonarQube Scanner Plugin](#install-sonarqube-scanner-plugin)
-    - [Configure SonarQube Token](#configure-sonarqube-token)
+  - [Step 5: Create the Shared Library](#step-5-create-the-shared-library)
+  - [Step 6: SonarQube Configuration](#step-6-sonarqube-configuration)
+  - [Step 7: Shared Library functions](#step-7-shared-library-functions)
+  - [Step 8: Minikube Cluster](#step-8-minikube-cluster)
+  - [Step 9: Create the Cluster resources](#step-9-create-the-cluster-resources)
+  - [Step 10: Atgocd Installation](#step-10-argocd-installation)
+  - [Step 11: Argocd Configuration](#step-11-argocd-configuration)
+
 
 ---
 ## CI CD Pipeline Overview
