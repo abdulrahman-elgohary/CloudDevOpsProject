@@ -35,20 +35,4 @@ module "iam_role" {
     source = "./modules/iam_role"
 }
 
-module "ec2-k8s" {
-    source = "./modules/ec2-k8s"
-    subnet_id = module.public_subnet.subnet_id
-    sg_id = module.security_group.sg_id
-    ec2_name = var.ec2_name
-    instance_type = var.instance_type
-    ec2_key = var.ec2_key
-}
 
-module "ec2-slave" {
-    source = "./modules/ec2-slave"
-    subnet_id = module.public_subnet.subnet_id
-    sg_id = module.security_group.sg_id
-    ec2_name = var.ec2_name
-    instance_type = var.instance_type
-    ec2_key = var.ec2_key
-}
