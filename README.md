@@ -5,10 +5,10 @@ This repository contains the infrastructure, configuration, and deployment setup
 ---
 ## Table of Contents
 
-- [CI/CD Pipeline Overview](#ci-cd-pipeline-overview)
-- [Project Structure](#project-structure)
-- [Prequisites](#prequesites)
-- [Steps](#steps)
+- **[CI/CD Pipeline Overview](#ci-cd-pipeline-overview)**
+- **[Project Structure](#project-structure)**
+- **[Prequisites](#prequesites)**
+- **[Steps](#steps)**
   - [Step 1: Establish the Infrastructure using Terraform](#step-1-establish-the-infrastructure-using-terraform)
   - [Step 2: Configure the Infrastructure using Ansible](#step-2-configure-the-infrastructure-using-ansible)
   - [Step 3: Jenkins Configuration](#step-3-jenkins-configuartion)
