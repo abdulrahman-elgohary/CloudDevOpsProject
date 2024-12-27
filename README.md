@@ -9,17 +9,17 @@ This repository contains the infrastructure, configuration, and deployment setup
 - **[Project Structure](#project-structure)**
 - **[Prequisites](#prequesites)**
 - **[Steps](#steps)**
-  - [Step 1: Establish the Infrastructure using Terraform](#step-1-establish-the-infrastructure-using-terraform)
-  - [Step 2: Configure the Infrastructure using Ansible](#step-2-configure-the-infrastructure-using-ansible)
-  - [Step 3: Jenkins Configuration](#step-3-jenkins-configuartion)
-  - [Step 4: Setup Jenkins Slave](#step-4-setup-jenkins-slave)
-  - [Step 5: Create the Shared Library](#step-5-create-the-shared-library)
-  - [Step 6: SonarQube Configuration](#step-6-sonarqube-configuration)
-  - [Step 7: Shared Library functions](#step-7-shared-library-functions)
-  - [Step 8: Minikube Cluster](#step-8-minikube-cluster)
-  - [Step 9: Create the Cluster resources](#step-9-create-the-cluster-resources)
-  - [Step 10: Argocd Installation](#step-10-argocd-installation)
-  - [Step 11: Argocd Configuration](#step-11-argocd-configuration)
+  - [**Step 1:** Establish the Infrastructure using Terraform](#step-1-establish-the-infrastructure-using-terraform)
+  - [**Step 2:** Configure the Infrastructure using Ansible](#step-2-configure-the-infrastructure-using-ansible)
+  - [**Step 3:** Jenkins Configuration](#step-3-jenkins-configuartion)
+  - [**Step 4:** Setup Jenkins Slave](#step-4-setup-jenkins-slave)
+  - [**Step 5:** Create the Shared Library](#step-5-create-the-shared-library)
+  - [**Step 6:** SonarQube Configuration](#step-6-sonarqube-configuration)
+  - [**Step 7:** Shared Library functions](#step-7-shared-library-functions)
+  - [**Step 8:** Minikube Cluster](#step-8-minikube-cluster)
+  - [**Step 9:** Create the Cluster resources](#step-9-create-the-cluster-resources)
+  - [**Step 10:** Argocd Installation](#step-10-argocd-installation)
+  - [**Step 11:** Argocd Configuration](#step-11-argocd-configuration)
 
 
 ---
