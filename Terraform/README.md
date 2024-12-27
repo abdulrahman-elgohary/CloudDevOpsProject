@@ -1,6 +1,6 @@
 ## Terraform Structure
 
-![image](https://github.com/user-attachments/assets/14b84c14-be0c-478f-91ba-4546bae0f55b)
+![image](https://github.com/user-attachments/assets/564f9cd6-6937-4a72-b8fb-16490ab1b81e)
 
 ## Prequesites 
 ### Step 1: Install Terraform 
@@ -73,22 +73,7 @@
   ```bash
   mkdir Terraform && cd Terraform
   ```
-- Create a file called `provider.tf` and write the following entry:
-  ```bash
-  #Specify the version of hasicorp to use for building the infrastructure
-  terraform {
-  required_providers {
-    aws = {
-      source  = "hashicorp/aws"
-      version = "~> 4.0"
-    }
-    }
-  }
-  #Specify the region for establishing the infrastrucute
-  provider "aws" {
-    region = "us-east-1"
-  }
-  ```
+- Create a file called `provider.tf` and write the following entry: **[Entry of proivider.tf](./provider.tf)**
 
 **1.2 Apply the Lock user feature**
 - This feature will prevent two or more users to manage terraform at the same time.
@@ -102,17 +87,8 @@
 
   ![image](https://github.com/user-attachments/assets/816089cf-266e-4d58-8a28-ab6844265128)
 
-- Create `backend.tf` file with the following entry:
-  ```bash
-  terraform {
-  backend "s3" {
-    bucket = "statefull-terraform-bucket-12-20-2024"
-    key    = "terraform-file-state.tfstate"
-    region = "us-east-1"
-    dynamodb_table = "Lock_users"
-    }
-  }
-  ```
+- Create `backend.tf` file with the following entry: **[Entry of backend.tf](./backend.tf)**
+
 ---
 ## Step 2: Start creating the modules
 - Create the `main.tf` root file
@@ -126,387 +102,39 @@
   ```
 ---
 ## Step 3: Create the `vpc` module.
-- Define the following variables in `variables.tf`:
-  ```bash
-  variable "vpc_cidr" {
-    type = string
-  }
+- Define the following variables in `variables.tf`: **[Entry of `VPC` variables.tf](./modules/vpc/variables.tf)**
 
-  variable "vpc_name" {
-      type = string
-  }
-  
-  variable igw_name {
-      type = string
-  }   
-  ```
-- Define the required outputs to be used in other modules in `outputs.tf` file
-  ```bash
-  output "vpc_id" {
-    value = aws_vpc.iv_vpc.id
-  }
-  
-  output "igw_id" {
-      value = aws_internet_gateway.iv_igw.id
-  }
-  ```
-- Define the resources inside `main.tf` file
-  ```bash
-  #Create a VPC
-  resource "aws_vpc" "iv_vpc" {
-  
-      cidr_block = var.vpc_cidr
-    tags = {
-      Name = var.vpc_name
-    }
-    
-  }
-  
-  #Create an Internet Gateway
-  resource "aws_internet_gateway" "iv_igw" {
-    vpc_id = aws_vpc.iv_vpc.id
-    tags = {
-      Name = var.igw_name
-    }
-  }
-  ```
+- Define the required outputs to be used in other modules in `outputs.tf` file: **[Entry of `VPC` outputs.tf](./modules/vpc/outputs.tf)**
+
+- Define the resources inside `main.tf` file: **[Entry of `VPC` main.tf](./modules/vpc/main.tf)**
+
 ---
 ## Step 4: Create the `subnet` module.
 
-- Define the following variables in `variables.tf`:
-  ```bash
-    variable "vpc_id" {
-      type = string
-  }
-  variable "public_subnet_cidr" {
-      type = string
-  }
-  
-  variable "public_subnet_name" {
-      type = string
-  }
-  
-  variable "availability_zone" {
-      type = string
-  }
-  
-  variable "public_route_table_name" {
-      type = string
-  }
-  
-  variable igw_id {
-      type = string
-  }   
-  ```
+- Define the following variables in `variables.tf`: **[Entry of `subnet` variables.tf](./modules/subnet/variables.tf)**
 
-- Define the required outputs to be used in other modules in `outputs.tf` file
-  ```bash
-  output "subnet_id" {
-    value = aws_subnet.public.id
-  }
-  ```
+- Define the required outputs to be used in other modules in `outputs.tf` file: **[Entry of `subnet` outputs.tf](./modules/subnet/outputs.tf)**
   
-- Define the resources inside `main.tf` file
-  ```bash
-  #Create a public subnet
-  resource "aws_subnet" "public" {
-    vpc_id            = var.vpc_id
-    cidr_block        = var.public_subnet_cidr
-    availability_zone = var.availability_zone
-    map_public_ip_on_launch = true
-     
-  tags = {
-      Name = var.public_subnet_name
-    }
-  }
-  
-  #Create a route table
-  resource "aws_route_table" "public_rt" {
-    vpc_id = var.vpc_id
-    route {
-      cidr_block = "0.0.0.0/0"
-      gateway_id = var.igw_id
-    }
-    tags = {
-      Name = var.public_route_table_name
-    }
-  }
-  
-  #Create a route table association
-  resource "aws_route_table_association" "public_rt_association" {
-    subnet_id      = aws_subnet.public.id
-    route_table_id = aws_route_table.public_rt.id
-  }
-
-  ```
+- Define the resources inside `main.tf` file: **[Entry of `subnet` main.tf](./modules/subnet/main.tf)**
 ---
 ## Step 5: Create the `security_group` module.
 
-- Define the following variables in `variables.tf`:
-  ```bash  
-  variable "vpc_id" {
-      type = string
-  }
-  
-  variable "ec2-sg-name" {
-      type = string
-  }
-  ```
-- Define the required outputs to be used in other modules in `outputs.tf` file
-  ```bash
-  output "sg_id" {
-    value = aws_security_group.ec2-sg.id
-  }
-  ```
-- Define the resources inside `main.tf` file
-  ```bash
-  #Create a security group for ec2
-  resource "aws_security_group" "ec2-sg" {
-    name        = "ec2-sg"
-    description = "Allow HTTP & HTTPS inbound traffic and ssh"
-    vpc_id      = var.vpc_id
-    ingress {
-      description = "HTTP from VPC"
-      from_port   = 80
-      to_port     = 80
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  
-      ingress {
-      description = "HTTPS from VPC"
-      from_port   = 443
-      to_port     = 443
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
+- Define the following variables in `variables.tf`: **[Entry of `security_group` variables.tf](./modules/security_group/variables.tf)**
 
-      ingress {
-      description = "SonarQube from VPC"
-      from_port   = 9000
-      to_port     = 9000
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-  
-    ingress {
-      description = "Jenkins port from VPC"
-      from_port   = 8080
-      to_port     = 8080
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-      ingress {
-      description = "SSH"
-      from_port   = 22
-      to_port     = 22
-      protocol    = "tcp"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-    egress {
-      from_port   = 0
-      to_port     = 0
-      protocol    = "-1"
-      cidr_blocks = ["0.0.0.0/0"]
-    }
-    tags = {
-      Name = var.ec2-sg-name
-    }
-  }
-  ```
+- Define the required outputs to be used in other modules in `outputs.tf` file: **[Entry of `security_group` outputs.tf](./modules/security_group/outputs.tf)**
+ 
+- Define the resources inside `main.tf` file: **[Entry of `security_group` main.tf](./modules/security_group/main.tf)**
 ---
 ## Step 6: Create the `ec2` module.
 
-- Define the following variables in `variables.tf`:
-  ```bash  
-  data "aws_ami" "ubuntu_22" {
-  most_recent = true
-  owners      = ["099720109477"] # Canonical's AWS Account ID
+- Define the following variables in `variables.tf`: **[Entry of `ec2` variables.tf](./modules/ec2/variables.tf)**
 
-  filter {
-    name   = "name"
-    values = ["ubuntu/images/hvm-ssd/ubuntu-jammy-22.04-amd64-server-*"]
-  }
-
-  filter {
-    name   = "architecture"
-    values = ["x86_64"]
-  }
-
-  filter {
-    name   = "root-device-type"
-    values = ["ebs"]
-  }
-
-  filter {
-    name   = "virtualization-type"
-    values = ["hvm"]
-    }
-  }
-
-
-  
-  variable "instance_type" {
-      type = string
-  }
-  
-  variable "sg_id" {
-      type = string
-  }
-  
-  variable "subnet_id" {
-      type = string
-  }
-  
-  variable "ec2_name" {
-       type = string
-  }
-  
-  variable "ec2_key" {
-      type = string
-  }
-  
-  variable "iam_ec2_instance_name" {
-    type = string
-  }
-  ```
-- Define the resources inside `main.tf` file
-  ```bash
-   #Create an Ec2 in a public subnet
-  resource "aws_instance" "ec2_instance" {
-    ami           = data.aws_ami.Amazon-linux-ami.id
-    instance_type = var.instance_type
-    subnet_id     = var.subnet_id
-    security_groups = [var.sg_id]
-    key_name = var.ec2_key
-    iam_instance_profile = var.iam_ec2_instance_name
-  user_data = <<-EOF
-  #!/bin/bash
-  sudo apt-get update -y
-  sudo apt-get install -y amazon-cloudwatch-agent
-  cat <<EOT > /opt/aws/amazon-cloudwatch-agent/bin/config.json
-  {
-    "logs": {
-      "logs_collected": {
-        "files": {
-          "collect_list": [
-            {
-              "file_path": "/var/log/syslog",
-              "log_group_name": "/ec2/logs",
-              "log_stream_name": "{instance_id}"
-            }
-          ]
-        }
-      }
-    },
-    "metrics": {
-      "metrics_collected": {
-        "cpu": {
-          "measurement": [
-            "cpu_usage_idle",
-            "cpu_usage_iowait",
-            "cpu_usage_user",
-            "cpu_usage_system"
-          ],
-          "resources": ["*"],
-          "totalcpu": true
-        },
-        "disk": {
-          "measurement": [
-            "disk_free",
-            "disk_used",
-            "disk_used_percent"
-          ],
-          "resources": ["*"]
-        },
-        "mem": {
-          "measurement": [
-            "mem_used_percent",
-            "mem_available",
-            "mem_total"
-          ]
-        }
-      }
-    }
-  }
-  EOT
-  sudo /opt/aws/amazon-cloudwatch-agent/bin/amazon-cloudwatch-agent-ctl \
-    -a fetch-config \
-    -m ec2 \
-    -c file:/opt/aws/amazon-cloudwatch-agent/bin/config.json \
-    -s
-  EOF
-  tags = {
-      Name = var.ec2_name
-    }
-  }
-  ```
+- Define the resources inside `main.tf` file: **[Entry of `ec2` main.tf](./modules/ec2/main.tf)**
 ---
 ## Step 7: Create the `iam_role` module.
 
-- Define the resources inside `main.tf` file
-```bash
- #Create Iam Role
-  resource "aws_iam_role" "ec2_role" {
-    name = "ec2-cloudwatch-role"
-  
-    assume_role_policy = <<EOF
-  {
-    "Version": "2012-10-17",
-    "Statement": [
-      {
-        "Action": "sts:AssumeRole",
-        "Principal": {
-          "Service": "ec2.amazonaws.com"
-        },
-        "Effect": "Allow",
-        "Sid": ""
-      }
-    ]
-  }
-  EOF
-  }
-  #Create Iam cloudwatch policy
-  resource "aws_iam_policy" "cloudwatch_policy" {
-    name        = "cloudwatch-metrics-policy"
-    description = "Policy to allow EC2 to send metrics to CloudWatch"
-    policy      = <<EOF
-  {
-      "Version": "2012-10-17",
-      "Statement": [
-          {
-              "Effect": "Allow",
-              "Action": [
-                  "cloudwatch:PutMetricData",
-                  "logs:CreateLogStream",
-                  "logs:PutLogEvents",
-                  "logs:CreateLogGroup"
-              ],
-              "Resource": "*"
-          }
-      ]
-  }
-  EOF
-  }
-  
-  #Attach policy to role
-  resource "aws_iam_role_policy_attachment" "cloudwatch_policy_attach" {
-    policy_arn = aws_iam_policy.cloudwatch_policy.arn
-    role = aws_iam_role.ec2_role.name
-  }
-  
-  #Create Iam Instance Profile
-  resource "aws_iam_instance_profile" "ec2_profile" {
-    name = "ec2-cloudwatch-profile"
-    role = aws_iam_role.ec2_role.name
-  }
-  ```
-- Define the required outputs to be used in other modules in `outputs.tf` file
-  ```bash
-  output "iam_instance_profile_name" {
-    value = aws_iam_instance_profile.ec2_profile.name
-  }
-  ```
+- Define the resources inside `main.tf` file: **[Entry of `iam_role` main.tf](./modules/iam_role/main.tf)**
+
 ## Step 8: Apply Terraform resources
 
 ```bash
