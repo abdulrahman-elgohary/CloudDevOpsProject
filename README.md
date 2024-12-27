@@ -2,6 +2,28 @@
 
 This repository contains the infrastructure, configuration, and deployment setup for a cloud-based application using DevOps principles. The project is structured to demonstrate the use of modern tools such as Docker, Terraform, Ansible, and Jenkins to achieve seamless CI/CD workflows and infrastructure as code.
 
+# CI/CD Pipeline Overview
+
+**This project utilizes a `Jenkins Pipeline` defined in a Jenkinsfile that orchestrates the following stages**:
+
+1. **Checkout Code**: Clones the repository from GitHub.
+
+2. **Build Application**: Compiles the code and packages it into a JAR file.
+
+3. **Run Unit Tests**: Ensures the application's quality.
+
+4. **Run SonarQube Analysis**: Checks code quality and coverage.
+
+5. **Build Docker Image**: Creates a Docker image from a dockerfile for the application.
+
+6. **Push Image to Docker Hub**: Pushes the built Docker image to Docker Hub.
+
+7. **Update the deployment**: Changes the deployment file with the new image.
+
+8. **Push the deployment to Github**: Pushes the new deployment file to Github 
+
+9. **Deploy to Kubernetes**: Deploys the new version of the application using Kubernetes with the help of `Argocd`.
+
 ---
 ## Project Structure
 
@@ -97,23 +119,27 @@ sudo apt install git -y
 mkdir Graduation_Project
 ```
 - Navigate to the created directory
-  ```bash
-  cd Graduation_Project
-  ```
+
+```bash
+cd Graduation_Project
+```
 - Configure Git 
-  ```bash
-  git config --global user.name <your-username>
-  git config --global user.email <your-email>
-  ```
+
+```bash
+git config --global user.name <your-username>
+git config --global user.email <your-email>
+```
 - Initialize a Git Repository 
-  ```bash
-  git init
-  ```
+
+```bash
+git init
+```
 - Copy the `ssh` url from the Created Github Repo UI
 - Use the following command to connect the local repo to the remote repo on Github
-    ```bash
-    git remote add origin <Git-Repo-ssh-Url>
-    ```
+
+```bash
+git remote add origin <Git-Repo-ssh-Url>
+```
 ---
 ## Steps
 ### Step 1: Establish the Infrastructure using Terraform.
@@ -161,15 +187,20 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
    ```bash
    sudo apt install docker.io -y
    ```
-- **Generate a ssh key to make the slave able to push changes to Github**
+- You will need to change the permissions of `/var/run/docker.sock` on the Jenkins-Agent.
 
-```bash
-ssh-keygen -t rsa -b 4096
-```
+  ```bash
+  sudo chmod 662 /var/run/docker.sock
+  ```
+- **Generate ssh key to make the slave able to push changes to Github**
+
+  ```bash
+  ssh-keygen -t rsa -b 4096
+  ```
 - **Copy public key content of `~/.ssh/id_rsa.pub`**
-- Navigate to Github Account > `Settings` > `SSH and GPG Keys` > Paste the Content here and Add the SSH Key
+- Navigate to `Github Account` > `Settings` > `SSH and GPG Keys` > Paste the Content here and Add the SSH Key
 
-![image](https://github.com/user-attachments/assets/1e1bc4b1-5ed5-485d-9a6e-de5d4aae5e83)
+  ![image](https://github.com/user-attachments/assets/1e1bc4b1-5ed5-485d-9a6e-de5d4aae5e83)
 
 - **Copy the private key content of `~/.ssh/id_rsa`**
 - Navigate to `Manage Jenkins` > `Credentials` > `New Credential`
@@ -179,17 +210,29 @@ ssh-keygen -t rsa -b 4096
 - Navigate to `Manage Jenkins` > `Manage Nodes and Clouds` > `New Node`.
 - Name the node (e.g., k8s-slave) and choose Permanent Agent.
 
-![image](https://github.com/user-attachments/assets/e797a31c-66ec-4933-a892-3fa01dd2246a)
+  ![image](https://github.com/user-attachments/assets/e797a31c-66ec-4933-a892-3fa01dd2246a)
 
+- **Create Required Ceredentials**
+  
+- *Create Credentials for the Jenkins to be able to access the dockerhub repo*
+- `Manage Jenkins` >> `Credentials` >> `Add Credentials`
+- Choose username and password credentials and name it `Docker-Hub`.
+  
+  ![image](https://github.com/user-attachments/assets/4848a79d-1a99-4775-a5de-2fc4a0bcf515)
+---
 - **Configure the Node Setting**
 
-- Set the Remote Root Directory (e.g., /var/lib/jenkins/).
+- SSH to the Jenkins Agent and Create a directory 
+  ```bash
+  mkdir /home/ubuntu/jenkins
+  ```
+- Set the Remote Root Directory (e.g., /home/ubuntu/jenkins/).
 - Insert `my-slave` in the label section
 - Provide the Launch Method (e.g., SSH).
 - Choose the earlier created credentials for the ec2. 
 - Create the node
 
-![image](https://github.com/user-attachments/assets/1a999ebb-ed27-4e2b-8264-704dadba9824)
+  ![image](https://github.com/user-attachments/assets/1a999ebb-ed27-4e2b-8264-704dadba9824)
 
 4.4 **Create the Shared Library**
 
@@ -201,16 +244,16 @@ ssh-keygen -t rsa -b 4096
 - Choose the branch that hold your library
 - Structure the shared library repository:
   
-```bash
-shared-lib/
-└── vars/
-    ├── gitCheckout.groovy
-    ├── unitTest.groovy
-    ├── buildJar.groovy
-    ├── sonarQubeTest.groovy
-    ├── buildandPushImage.groovy
-    ├── deployOnK8s.groovy
-```
+  ```bash
+  shared-lib/
+  └── vars/
+      ├── gitCheckout.groovy
+      ├── unitTest.groovy
+      ├── buildJar.groovy
+      ├── sonarQubeTest.groovy
+      ├── buildandPushImage.groovy
+      ├── pushToGithub.groovy
+  ```
 4.5 **Install Sonnar Qube Scanner Plugin**
 
 - Navigate to `Manage Jenkins` > `Plugins` > Search for `SonarQube Scanner for Jenkins` then install it.
@@ -229,149 +272,137 @@ shared-lib/
 
 - Define the scripts in the `vars` directory. Example for `gitCheckout.groovy`:
 
-```groovy
-def call(String repoUrl, String branch) {
-    checkout scm: [$class: 'GitSCM', branches: [[name: branch]], userRemoteConfigs: [[url: repoUrl]]]
-}
-```
+  ```groovy
+  def call(String repoUrl, String branch) {
+      checkout scm: [$class: 'GitSCM', branches: [[name: branch]], userRemoteConfigs: [[url: repoUrl]]]
+  }
+  ```
 - Define the scripts in the `vars` directory. Example for `unitTest.groovy`:
 
-```groovy
-def call() {
-    sh 'chmod +x ./gradlew'
-    sh './gradlew test'
-}
-```
+  ```groovy
+  def call() {
+      sh 'chmod +x ./gradlew'
+      sh './gradlew test'
+  }
+  ```
 - Define the scripts in the `vars` directory. Example for `buildJar.groovy`:
 
-```groovy
-def call() {
-    sh './gradlew build --stacktrace'
-}
-```
+  ```groovy
+  def call() {
+      sh './gradlew build --stacktrace'
+  }
+  ```
 - Add the following entry under the section of `plugin` in `build.gradle`.
 
-```bash
-id "org.sonarqube" version "4.0.0.2929"
-```
+  ```bash
+  id "org.sonarqube" version "4.0.0.2929"
+  ```
 - At the end of the file add the `sonarqube properties` section.
   
-```bash
-sonarqube {
-    properties {
-        property 'sonar.host.url', 'http://54.88.49.239:9000'  // Update this to your SonarQube server URL
-        property 'sonar.projectKey', 'clouddevopsproject'     // Update this to your project key
-        property 'sonar.projectName', 'clouddevopsproject'   // Update this to your project name
-    }
-}
-```
+  ```bash
+  sonarqube {
+      properties {
+          property 'sonar.host.url', 'http://54.88.49.239:9000'  // Update this to your SonarQube server URL
+          property 'sonar.projectKey', 'clouddevopsproject'     // Update this to your project key
+          property 'sonar.projectName', 'clouddevopsproject'   // Update this to your project name
+      }
+  }
+  ```
 - Start creating the `sonarQubeTest.groovy` file
  
-```groovy
-def call(Map envVars) {
-    // SonarQube Test
-    echo 'Running SonarQube analysis...'
-    withSonarQubeEnv(envVars.sonarQubeServer) {
-        dir('FinalProjectCode') {
-        //Change the sonar to sonarqube if it doesn't work
-            sh '''
-            ./gradlew sonar 
-            '''
-        }
-    }
-}
-```
+  ```groovy
+  def call(Map envVars) {
+      // SonarQube Test
+      echo 'Running SonarQube analysis...'
+      withSonarQubeEnv(envVars.sonarQubeServer) {
+          dir('FinalProjectCode') {
+          //Change the sonar to sonarqube if it doesn't work
+              sh '''
+              ./gradlew sonar 
+              '''
+          }
+      }
+  }
+  ```
 - Start creating the `buildandPushImage.groovy` file
  
-```groovy
-def call(Map envVars) {
-    echo 'Building the Image from dockerfile...'
-    dir('FinalProjectCode') {
-    sh "docker build -t ${envVars.docker_hub_username}/${envVars.imageName}:${envVars.buildNumber} ."
-    }
+  ```groovy
+  def call(Map envVars) {
+      echo 'Building the Image from dockerfile...'
+      dir('FinalProjectCode') {
+      sh "docker build -t ${envVars.docker_hub_username}/${envVars.imageName}:${envVars.buildNumber} ."
+      }
 
 
-    echo 'Pushing Docker image to registry...'
-    withCredentials([usernamePassword(credentialsId: envVars.registryCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
-    dir('FinalProjectCode') {   
-        sh """
-        echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-        docker push ${envVars.docker_hub_username}/${envVars.imageName}:${envVars.buildNumber}
-        docker rmi ${envVars.docker_hub_username}/${envVars.imageName}:${envVars.buildNumber}
-        """
-    }
-    }
-}
-```
+      echo 'Pushing Docker image to registry...'
+      withCredentials([usernamePassword(credentialsId: envVars.registryCredentials, usernameVariable: 'DOCKER_USERNAME', passwordVariable: 'DOCKER_PASSWORD')]) {
+      dir('FinalProjectCode') {   
+          sh """
+          echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
+          docker push ${envVars.docker_hub_username}/${envVars.imageName}:${envVars.buildNumber}
+          docker rmi ${envVars.docker_hub_username}/${envVars.imageName}:${envVars.buildNumber}
+          """
+      }
+      }
+  }
+  ```
 - It's best practice to delete the image from the agent after pushing it to docker-hub.
-- You will need to change the permissions of `/var/run/docker.sock` on the Jenkins-Agent.
 
-```bash
-sudo chmod 662 /var/run/docker.sock
-```
 - Start creating the `pushToGithub.groovy` file
   
-```groovy
-def call(Map envVars) {
-    sh """
-    git config user.name "${envVars.githubUsername}"
-    git config user.email "${envVars.githubEmail}"
-    git remote set-url origin ${envVars.gitRepo}
-    git checkout ${envVars.branch}
-    git pull origin ${envVars.branch}
-    git add .
-    git commit -m "Automated commit by Jenkins" || echo "No changes to commit"
-    git push origin ${envVars.branch}
-    """
-}
-```
+  ```groovy
+  def call(Map envVars) {
+      sh """
+      git config user.name "${envVars.githubUsername}"
+      git config user.email "${envVars.githubEmail}"
+      git remote set-url origin ${envVars.gitRepo}
+      git checkout ${envVars.branch}
+      git pull origin ${envVars.branch}
+      git add .
+      git commit -m "Automated commit by Jenkins" || echo "No changes to commit"
+      git push origin ${envVars.branch}
+      """
+  }
+  ```
 
 ---
-### Step 5. Create Required Ceredentials
-  
-- **Create Credentials for the Jenkins to be able to access the dockerhub repo**
-- `Manage Jenkins` >> `Credentials` >> `Add Credentials`
-- Choose username and password credentials and name it `Docker-Hub`.
-  
-![image](https://github.com/user-attachments/assets/4848a79d-1a99-4775-a5de-2fc4a0bcf515)
----
-### Step 6. Create an Ec2 and Install `Minikube` on it 
+### Step 5. Create an Ec2 and Install `Minikube` on it 
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
 
-![image](https://github.com/user-attachments/assets/9dfd1d45-2edc-42b4-8e4d-4b29b95d240f)
+  ![image](https://github.com/user-attachments/assets/9dfd1d45-2edc-42b4-8e4d-4b29b95d240f)
 
-6.1 **Upate the system**
+5.1 **Upate the system**
   
-```bash
-sudo apt update
-```
-6.2 **Install Docker**
+  ```bash
+  sudo apt update
+  ```
+5.2 **Install Docker**
 
 ```bash
 sudo apt install -y docker.io
 ```
-6.3 **Add the user system to the docker group**
+5.3 **Add the user system to the docker group**
 
 ```bash
 sudo usermod -aG docker $USER
 ```
-6.4 **Download and Install Minikube**
+5.4 **Download and Install Minikube**
 
-```bash
-curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-```
+  ```bash
+  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
+  ```
 - Move the binary for global access
 
-```bash
-sudo install minikube-linux-amd64 /usr/local/bin/minikube
-```
+  ```bash
+  sudo install minikube-linux-amd64 /usr/local/bin/minikube
+  ```
 - Start Minikube
 
-```bash
-minikube start --driver=docker
-```
-6.5 **Install Kubectl** 
+  ```bash
+  minikube start --driver=docker
+  ```
+5.5 **Install Kubectl** 
 
 ```bash
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -379,7 +410,7 @@ chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 kubectl version --client
 ```
-6.6 **Install Kubectl Compeletion**
+5.6 **Install Kubectl Compeletion**
 
 ```bash
 sudo apt-get install -y bash-completion
@@ -387,50 +418,13 @@ source <(kubectl completion bash)
 source ~/.bashrc
 ```
 ---
-### Step 7: Create the Deployment file
-- Create a file called `deployment.yml` and insert the following entries
+### Step 6: Create the Deployment file
+- Create a file called `deployment.yml` and insert the following entries: **[deployment.yml content](./FinalProjectCode/deployment.yml)**
 
-```yaml
-apiVersion: apps/v1
-kind: Deployment
-metadata:
-  name: ivolve
-  labels:
-    app: ivolve
-spec:
-  replicas: 3
-  selector:
-    matchLabels:
-      app: ivolve
-  template:
-    metadata:
-      labels:
-        app: ivolve
-    spec:
-      containers:
-      - name: ivolve
-        image: gohary101/ivolve-app:73
-        ports:
-        - containerPort: 8081
-```
-- Expose the deployment by creatin a file called `service.yml` with the following entries
+- Expose the deployment by creatin a file called `service.yml` with the following entries: **[service.yml content](./FinalProjectCode/service.yml)**
 
-```yaml
 ---
-apiVersion: v1
-kind: Service
-metadata:
-  name: ivolve-app-service
-spec:
-  ports:
-  - protocol: TCP
-    port: 80
-    targetPort: 8081
-  selector:
-    app: ivolve
-```
----
-### Step 8: Install ArgoCd On the Minikube Cluster 
+### Step 7: Install ArgoCd On the Minikube Cluster 
 
 7.1 **Create a Namespace for Argo CD**
 
@@ -450,60 +444,37 @@ kubectl port-forward svc/argocd-server -n argocd 9090:443
 ```
 - You can now access Argo CD at https://localhost:9090.
 
-![image](https://github.com/user-attachments/assets/3118e78c-b357-4480-aa1f-86c09bedbc23)
+  ![image](https://github.com/user-attachments/assets/3118e78c-b357-4480-aa1f-86c09bedbc23)
 
 7.4 **Login to Argo CD**
 
 - Retrieve the initial admin password:
 
-```bash
-kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
-```
+  ```bash
+  kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
+  ```
 - Login with the username `admin` and the password retrieved earlier.
 ---
 ### Step 9: Configure Argocd 
-- Create a File called `application.yml` and insert the following entries:
+- Create a File called `application.yml` and insert the following entries: **[application.yml content](./application.yml)**
 
-```yaml
-apiVersion: argoproj.io/v1alpha1
-kind: Application
-metadata:
-  name: myapp-argo-application
-  namespace: argocd
-
-spec: 
-  project: default
-  source:
-    repoURL: https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git
-    targetRevision: HEAD
-    path: FinalProjectCode
-  destination:
-    server: https://kubernetes.default.svc
-    namespace: ivolve-namespace
-  syncPolicy:
-    automated:
-      prune: true
-      selfHeal: true
-    syncOptions:
-      - CreateNamespace=true
-```
 - Apply the Argocd configuration
 
-```bash
-kubectl apply -f application.yml
-```
+  ```bash
+  kubectl apply -f application.yml
+  ```
 - Expose the deployment to the internet to be able to access it through internet
 
-```bash
-kubectl port-forward service/ivolve-app-service 7070:80 -n ivolve-namespace
-```
+  ```bash
+  kubectl port-forward service/ivolve-app-service 7070:80 -n ivolve-namespace
+  ```
 
 - Navigate to the UI of the Argocd
 
-![image](https://github.com/user-attachments/assets/afe2e1ce-2f43-48dc-9cef-a0380263dcdc)
+  ![image](https://github.com/user-attachments/assets/afe2e1ce-2f43-48dc-9cef-a0380263dcdc)
 
 - You can now access the application using the following url http://localhost:7070
 
-![image](https://github.com/user-attachments/assets/c1ff1502-9dfc-4fe2-b6d3-267e19704f0b)
+  ![image](https://github.com/user-attachments/assets/c1ff1502-9dfc-4fe2-b6d3-267e19704f0b)
 
 ---
