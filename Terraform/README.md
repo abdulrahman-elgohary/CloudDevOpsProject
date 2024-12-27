@@ -1,11 +1,18 @@
 ## Table of Content
 [Step 1: Prepare the Backend of Terraform](#step-1-prepare-the-backend-of-terraform)
+
 [Step 2: Start creating the modules](#step-2-start-creating-the-modules)
+
 [Step 3: Create the `vpc` module](#step-3-create-the-vpc-module)
+
 [Step 4: Create the `subnet` module](#step-4-create-the-subnet-module)
+
 [Step 5: Create the `security_group` module](#step-5-create-the-security_group-module)
+
 [Step 6: Create the `ec2` module](#step-6-create-the-ec2-module)
+
 [Step 7: Create the `iam_role` module](#step-7-create-the-iam_role-module)
+
 [Step 8: Apply Terraform resources](#step-8-apply-terraform-resources)
 
 ## Terraform Structure
