@@ -16,13 +16,13 @@
 
   [1. Create the required `roles`](#1-create-the-required-roles)
   
-  [2. Start by Installing necessary packages `Preinstall_role`](./roles/Preinstall/tasks/main.yml)](#2-start-by-installing-necessary-packages-preinstall_role)
+  [2. Start by Installing necessary packages `Preinstall_role`](#2-start-by-installing-necessary-packages-preinstall_role)
   
-  [3. Install Docker `Docker_role`](./roles/Docker/tasks/main.yml) and don't forget to define the handlers.](#3-install-docker-docker_role-and-dont-forget-to-define-the-handlers)
+  [3. Install Docker `Docker_role`](#3-install-docker-docker_role-and-dont-forget-to-define-the-handlers)
   
-  [4. Install Jenkins `Jenkins_role`](./roles/Jenkins/tasks/main.yml) and don't forget to define the handlers.](#4-install-jenkins-jenkins_role-and-dont-forget-to-define-the-handlers)
+  [4. Install Jenkins `Jenkins_role`](#4-install-jenkins-jenkins_role-and-dont-forget-to-define-the-handlers)
   
-  [5. Install SonarQube `SonarQube_role`](./roles/SonarQube/tasks/main.yml) and pay attention to the variables and also the handlers.](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
+  [5. Install SonarQube `SonarQube_role`](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
   
 [Notes:](#notes-1)
 
