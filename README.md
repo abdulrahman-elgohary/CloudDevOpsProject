@@ -1,6 +1,6 @@
 # CloudDevOpsProject
 
-This repository contains the infrastructure, configuration, and deployment setup for a cloud-based application using DevOps principles. The project is structured to demonstrate the use of modern tools such as Docker, Terraform, Ansible, and Jenkins to achieve seamless CI/CD workflows and infrastructure as code.
+This repository contains the infrastructure, configuration, and deployment setup for a cloud-based application using DevOps principles. The project is structured to demonstrate the use of modern tools such as `Docker`, `Terraform`, `Ansible`, `Jenkins` and `Argocd` to achieve seamless CI/CD workflows and infrastructure as code.
 
 # CI/CD Pipeline Overview
 
