@@ -7,7 +7,7 @@
   - [Step 2: Install AWS CLI](#step-2-install-aws-cli)
   - [Step 3: Configure AWS CLI](#step-3-configure-aws-cli)
 
-- [Steps:](#steps:)
+- [Steps:](#steps-)
 
   - [Step 1: Prepare the Backend of Terraform](#step-1-prepare-the-backend-of-terraform)
   
