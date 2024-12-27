@@ -5,7 +5,7 @@ This repository contains the infrastructure, configuration, and deployment setup
 ---
 ## Table of Contents
 
-- [CI/CD Pipeline Overview](#ci-cd-pipeline-overview)
+- [CI/CD Pipeline Overview](#ci/cd-pipeline-overview)
 - [Project Structure](#project-structure)
 - [Prequisites](#prequesites)
   - [Step 1: Create a Github Repository](#step-1-create-a-github-repository)
@@ -23,7 +23,7 @@ This repository contains the infrastructure, configuration, and deployment setup
     - [Configure SonarQube Token](#configure-sonarqube-token)
 
 ---
-# CI/CD Pipeline Overview
+## CI/CD Pipeline Overview
 
 **This project utilizes a `Jenkins Pipeline` defined in a Jenkinsfile that orchestrates the following stages**:
 
