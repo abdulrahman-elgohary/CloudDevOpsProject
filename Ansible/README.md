@@ -8,7 +8,7 @@
   - [2. Configure the Inventory File](#2-configure-the-inventory-file)
   - [3. Verify Ansible Connectivity](#3-verify-ansible-connectivity)
   
-- **[Notes:](#notes)**
+- **[Notes](#notes)**
 
 - **[Steps:](#steps)**
 
@@ -18,7 +18,7 @@
   - [4. Install Jenkins `Jenkins_role`](#4-install-jenkins-jenkins_role-and-dont-forget-to-define-the-handlers)
   - [5. Install SonarQube `SonarQube_role`](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
   
-- **[Notes:](#notes-1)**
+- **[Notes](#notes-1)**
 
 - **[Installing and Configuring PostgreSQL.](#installing-and-configuring-postgresql)**
 
