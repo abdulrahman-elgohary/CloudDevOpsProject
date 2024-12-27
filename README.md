@@ -14,7 +14,7 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [Step 1: Establish the Infrastructure using Terraform](#step-1-establish-the-infrastructure-using-terraform)
   - [Step 2: Configure the Infrastructure using Ansible](#step-2-configure-the-infrastructure-using-ansible)
   - [Step 3: Jenkins Configuration](#step-3-jenkins-configuartion)
-    - [Set Up a Jenkins Slave](#-set-up-a-jenkins-slave)
+    - [Set Up a Jenkins Slave](#setup-jenkins-slave)
     - [Create the Shared Library](#create-the-shared-library)
     - [Install SonarQube Scanner Plugin](#install-sonarqube-scanner-plugin)
     - [Configure SonarQube Token](#configure-sonarqube-token)
@@ -185,7 +185,7 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
   
 ![image](https://github.com/user-attachments/assets/c7156fb9-1d79-452d-b939-549d5af23c7e)
 
-4.3 **Set Up a Jenkins Slave**
+4.3 **Setup Jenkins Slave**
 
 - **Launch another Server ssh to it and Install Java.**
   
