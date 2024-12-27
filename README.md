@@ -292,7 +292,7 @@ def call(Map envVars) {
 - Choose username and password credentials and name it `Docker-Hub`.
   
 ![image](https://github.com/user-attachments/assets/4848a79d-1a99-4775-a5de-2fc4a0bcf515)
-
+---
 ### Step 6. Create an Ec2 and Install `Minikube` on it 
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
@@ -345,7 +345,50 @@ source <(kubectl completion bash)
 source ~/.bashrc
 ```
 ---
-### Step 7: Install ArgoCd On the Minikube Cluster 
+### Step 7: Create the Deployment file
+- Create a file called `deployment.yml` and insert the following entries
+
+```yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: ivolve
+  labels:
+    app: ivolve
+spec:
+  replicas: 3
+  selector:
+    matchLabels:
+      app: ivolve
+  template:
+    metadata:
+      labels:
+        app: ivolve
+    spec:
+      containers:
+      - name: ivolve
+        image: gohary101/ivolve-app:73
+        ports:
+        - containerPort: 8081
+```
+- Expose the deployment by creatin a file called `service.yml` with the following entries
+
+```yaml
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: ivolve-app-service
+spec:
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 8081
+  selector:
+    app: ivolve
+```
+---
+### Step 8: Install ArgoCd On the Minikube Cluster 
 
 7.1 **Create a Namespace for Argo CD**
 
@@ -375,4 +418,50 @@ kubectl port-forward svc/argocd-server -n argocd 9090:443
 kubectl get secret argocd-initial-admin-secret -n argocd -o jsonpath="{.data.password}" | base64 -d
 ```
 - Login with the username `admin` and the password retrieved earlier.
+---
+### Step 9: Configure Argocd 
+- Create a File called `application.yml` and insert the following entries:
 
+```yaml
+apiVersion: argoproj.io/v1alpha1
+kind: Application
+metadata:
+  name: myapp-argo-application
+  namespace: argocd
+
+spec: 
+  project: default
+  source:
+    repoURL: https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git
+    targetRevision: HEAD
+    path: FinalProjectCode
+  destination:
+    server: https://kubernetes.default.svc
+    namespace: ivolve-namespace
+  syncPolicy:
+    automated:
+      prune: true
+      selfHeal: true
+    syncOptions:
+      - CreateNamespace=true
+```
+- Apply the Argocd configuration
+
+```bash
+kubectl apply -f application.yml
+```
+- Expose the deployment to the internet to be able to access it through internet
+
+```bash
+kubectl port-forward service/ivolve-app-service 7070:80 -n ivolve-namespace
+```
+
+- Navigate to the UI of the Argocd
+
+![image](https://github.com/user-attachments/assets/afe2e1ce-2f43-48dc-9cef-a0380263dcdc)
+
+- You can now access the application using the following url http://localhost:7070
+
+![image](https://github.com/user-attachments/assets/c1ff1502-9dfc-4fe2-b6d3-267e19704f0b)
+
+---
