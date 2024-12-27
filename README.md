@@ -23,7 +23,7 @@ This repository contains the infrastructure, configuration, and deployment setup
     - [Configure SonarQube Token](#configure-sonarqube-token)
 
 ---
-## CICD Pipeline Overview
+## CI/CD Pipeline Overview
 
 **This project utilizes a `Jenkins Pipeline` defined in a Jenkinsfile that orchestrates the following stages**:
 
