@@ -3,36 +3,78 @@
 This repository contains the infrastructure, configuration, and deployment setup for a cloud-based application using DevOps principles. The project is structured to demonstrate the use of modern tools such as Docker, Terraform, Ansible, and Jenkins to achieve seamless CI/CD workflows and infrastructure as code.
 
 ---
-
 ## Project Structure
 
 ```plaintext
 CloudDevOpsProject/
-├── Dockerfile
-├── terraform/
+├── Terraform/
+│   ├── backend.tf
 │   ├── main.tf
-│   ├── outputs.tf
-│   ├── variables.tf
-│   ├── modules/
-│   │   ├── vpc/
+│   ├── modules
+│   │   ├── ec2
 │   │   │   ├── main.tf
 │   │   │   ├── outputs.tf
-│   │   │   ├── variables.tf
-│   │   ├── ec2/
+│   │   │   └── variables.tf
+│   │   ├── iam_role
 │   │   │   ├── main.tf
 │   │   │   ├── outputs.tf
-│   │   │   ├── variables.tf
-├── ansible/
-│   ├── roles/
-│   │   ├── common/
-│   │   ├── jenkins/
-│   │   ├── sonarqube/
-│   └── playbook.yml
+│   │   │   └── variables.tf
+│   │   ├── security_group
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   └── variables.tf
+│   │   ├── subnet
+│   │   │   ├── main.tf
+│   │   │   ├── outputs.tf
+│   │   │   └── variables.tf
+│   │   └── vpc
+│   │       ├── main.tf
+│   │       ├── outputs.tf
+│   │       └── variables.tf
+│   ├── provider.tf
+│   ├── README.md
+│   ├── terraform.tfvars
+│   └── variables.tff
+├── Ansible/
+│   ├── ansible.cfg
+│   ├── aws_ec2.yml
+│   ├── playbook.yml
+│   ├── README.md
+│   └── roles
+│       ├── Docker
+│       │   ├── handlers
+│       │   │   └── main.yml
+│       │   └── tasks
+│       │       └── main.yml
+│       ├── Jenkins
+│       │   ├── handlers
+│       │   │   └── main.yml
+│       │   └── tasks
+│       │       └── main.yml
+│       ├── Preinstall
+│       │   └── tasks
+│       │       └── main.yml
+│       └── SonarQube
+│           ├── handlers
+│           │   └── main.yml
+│           ├── tasks
+│           │   └── main.yml
+│           └── vars
+│               └── main.yml
+└── FinalProjectCode/
+│   ├── build/
+│   ├── gradle/
+│   ├── src/
+│   ├── build.gradle
+│   ├── gradlew.bat
+│   ├── settings.gradle
+│   ├── Dockerfile
+│   ├── deployment.yml
+│   ├── service.yml
 ├── Jenkinsfile
-└── docs/
-    ├── architecture-overview.md
-    ├── setup-instructions.md
-    ├── troubleshooting.md
+├── README.md
+├── application.yml
+
 ```
 ---
 
