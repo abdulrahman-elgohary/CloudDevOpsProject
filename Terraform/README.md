@@ -1,7 +1,7 @@
 ## Table of Content
 [Terraform Structure](#terraform-structure)
 
-[Prequisets](#prequisets)
+[Prequesites](#prequesites)
 
 [Step 1: Prepare the Backend of Terraform](#step-1-prepare-the-backend-of-terraform)
 
