@@ -185,7 +185,7 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
   
 ![image](https://github.com/user-attachments/assets/c7156fb9-1d79-452d-b939-549d5af23c7e)
 
-4.3 **Setup Jenkins Slave**
+### Step 4: Setup Jenkins Slave
 
 - **Launch another Server ssh to it and Install Java.**
   
@@ -252,7 +252,7 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
 
   ![image](https://github.com/user-attachments/assets/1a999ebb-ed27-4e2b-8264-704dadba9824)
 
-4.4 **Create the Shared Library**
+## Step 5: Create the Shared Library
 
 - In Jenkins, configure the shared library:
 
@@ -272,12 +272,14 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
       ├── buildandPushImage.groovy
       ├── pushToGithub.groovy
   ```
-4.5 **Install Sonnar Qube Scanner Plugin**
+## Step 6: SonarQube Configuration
+
+- **Install Sonnar Qube Scanner Plugin**
 
 - Navigate to `Manage Jenkins` > `Plugins` > Search for `SonarQube Scanner for Jenkins` then install it.
 - Navigate to `Manage Jenkins` > `Tools` > `SonarQube Scanner installations` > Give it a name `SonarQube`.
 
-4.6 **Configure SonarQube Token**
+- **Configure SonarQube Token**
 - Navigate to `SonarQube` UI > `Administration` > `Update Token`.
   
   ![image](https://github.com/user-attachments/assets/2220208b-41ed-4914-8a7c-4c1b8cfde3fd)
@@ -286,8 +288,7 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
 
   ![image](https://github.com/user-attachments/assets/a7917ea1-e2ec-4d2d-9121-9773d5a9fc5f)
 ---  
-### Step 4: Creating the functions inside the shared Library
-
+### Step 7: Shared Library functions
 - Define the scripts in the `vars` directory. Example for `gitCheckout.groovy`:
 
   ```groovy
@@ -384,28 +385,28 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
   ```
 
 ---
-### Step 5. Create an Ec2 and Install `Minikube` on it 
+### Step 8. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
 
   ![image](https://github.com/user-attachments/assets/9dfd1d45-2edc-42b4-8e4d-4b29b95d240f)
 
-5.1 **Upate the system**
+8.1 **Upate the system**
   
   ```bash
   sudo apt update
   ```
-5.2 **Install Docker**
+8.2 **Install Docker**
 
 ```bash
 sudo apt install -y docker.io
 ```
-5.3 **Add the user system to the docker group**
+8.3 **Add the user system to the docker group**
 
 ```bash
 sudo usermod -aG docker $USER
 ```
-5.4 **Download and Install Minikube**
+8.4 **Download and Install Minikube**
 
   ```bash
   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -420,7 +421,7 @@ sudo usermod -aG docker $USER
   ```bash
   minikube start --driver=docker
   ```
-5.5 **Install Kubectl** 
+8.5 **Install Kubectl** 
 
 ```bash
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -428,7 +429,7 @@ chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 kubectl version --client
 ```
-5.6 **Install Kubectl Compeletion**
+8.6 **Install Kubectl Compeletion**
 
 ```bash
 sudo apt-get install -y bash-completion
@@ -436,26 +437,26 @@ source <(kubectl completion bash)
 source ~/.bashrc
 ```
 ---
-### Step 6: Create the Deployment file
+### Step 9: Create the Cluster resources
 - Create a file called `deployment.yml` and insert the following entries: **[deployment.yml content](./FinalProjectCode/deployment.yml)**
 
 - Expose the deployment by creatin a file called `service.yml` with the following entries: **[service.yml content](./FinalProjectCode/service.yml)**
 
 ---
-### Step 7: Install ArgoCd On the Minikube Cluster 
+### Step 10: Argocd Installation
 
-7.1 **Create a Namespace for Argo CD**
+10.1 **Create a Namespace for Argo CD**
 
 ```bash
 kubectl create namespace argocd
 ```
-7.2 **Install Argo CD**
+10.2 **Install Argo CD**
 
 ```bash
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-7.3 **Expose the Argo CD Server**
+10.3 **Expose the Argo CD Server**
 
 ```bash
 kubectl port-forward svc/argocd-server -n argocd 9090:443
@@ -464,7 +465,7 @@ kubectl port-forward svc/argocd-server -n argocd 9090:443
 
   ![image](https://github.com/user-attachments/assets/3118e78c-b357-4480-aa1f-86c09bedbc23)
 
-7.4 **Login to Argo CD**
+10.4 **Login to Argo CD**
 
 - Retrieve the initial admin password:
 
@@ -473,7 +474,7 @@ kubectl port-forward svc/argocd-server -n argocd 9090:443
   ```
 - Login with the username `admin` and the password retrieved earlier.
 ---
-### Step 9: Configure Argocd 
+### Step 11: Argocd Configuration 
 - Create a File called `application.yml` and insert the following entries: **[application.yml content](./application.yml)**
 
 - Apply the Argocd configuration
