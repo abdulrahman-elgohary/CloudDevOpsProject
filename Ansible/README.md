@@ -29,7 +29,8 @@ source ansible-env/bin/activate
 ```bash
 pip install ansible
 ```
-- Each time you will use ansible you will need to activate the virtual environment.
+- Each time you will use ansible you will need to activate the virtual environment using the command in step 1.4.
+
 - It’s a good practice to use a Python virtual environment to isolate dependencies.
 ---
 
@@ -49,7 +50,10 @@ nano aws_ec2.yml
 
 2.3. **Configure Ansible Configuration File**:
 - Create `ansible.cfg` file.
-- Move the private key of your instances to the same path in the configuration file.
+
+- Move the private key of your instances to the same 
+path that you will insert in the configuration file.
+
 - Make sure of the user that you will ssh to using ansible.
 ```bash
 touch ansible.cfg
@@ -83,13 +87,11 @@ ansible all -m ping -vvvv
 mkdir -p roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},SonarQube/{tasks,handlers,vars}}
 touch roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},SonarQube/{tasks,handlers,vars}}/main.yml
 ```
-![image](https://github.com/user-attachments/assets/494eceed-b387-4b09-a2cf-889a1d50504a)
-
 ### 2. Start by Installing necessary packages [Preinstall_role](./roles/Preinstall/tasks/main.yml).
 
-### 3. Install Docker [Docker_role](./roles/Docker/tasks/main.yml) and don't forget the handlers.
+### 3. Install Docker [Docker_role](./roles/Docker/tasks/main.yml) and don't forget to define the handlers.
 
-### 4. Install Jenkins [Jenkins_role](./roles/Jenkins/tasks/main.yml) and don't forget the handlers.
+### 4. Install Jenkins [Jenkins_role](./roles/Jenkins/tasks/main.yml) and don't forget to define the handlers.
 
 ### 5. Install SonarQube [SonarQube_role](./roles/SonarQube/tasks/main.yml) and pay attention to the variables and also the handlers.
 
