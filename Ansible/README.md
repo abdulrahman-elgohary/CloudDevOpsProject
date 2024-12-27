@@ -4,11 +4,11 @@
 
 [Prequesites](#prequesites)
 
-    [1. Install Ansible on the Control Node](#1-install-ansible-on-the-control-node)
-    
-    [2. Configure the Inventory File](#2-configure-the-inventory-file)
-    
-    [3. Verify Ansible Connectivity](#3-verify-ansible-connectivity)
+[1. Install Ansible on the Control Node](#1-install-ansible-on-the-control-node)
+
+[2. Configure the Inventory File](#2-configure-the-inventory-file)
+
+[3. Verify Ansible Connectivity](#3-verify-ansible-connectivity)
   
 [Notes:](#notes)
 
