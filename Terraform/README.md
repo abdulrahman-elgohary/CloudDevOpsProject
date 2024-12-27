@@ -1,4 +1,8 @@
 ## Table of Content
+[Terraform Structure](#terraform-structure)
+
+[Prequisets](#prequisets)
+
 [Step 1: Prepare the Backend of Terraform](#step-1-prepare-the-backend-of-terraform)
 
 [Step 2: Start creating the modules](#step-2-start-creating-the-modules)
