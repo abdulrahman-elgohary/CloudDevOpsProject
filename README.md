@@ -18,7 +18,7 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [Step 7: Shared Library functions](#step-7-shared-library-functions)
   - [Step 8: Minikube Cluster](#step-8-minikube-cluster)
   - [Step 9: Create the Cluster resources](#step-9-create-the-cluster-resources)
-  - [Step 10: Atgocd Installation](#step-10-argocd-installation)
+  - [Step 10: Argocd Installation](#step-10-argocd-installation)
   - [Step 11: Argocd Configuration](#step-11-argocd-configuration)
 
 
