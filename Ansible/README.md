@@ -1,36 +1,36 @@
 ## Table of Content
 
-[## Ansible Structure](#ansible-structure)
+[Ansible Structure](#ansible-structure)
 
-[## Prequesites](#prequesites)
+[Prequesites](#prequesites)
 
-  [### 1. Install Ansible on the Control Node](#1-install-ansible-on-the-control-node)
+  [1. Install Ansible on the Control Node](#1-install-ansible-on-the-control-node)
   
-  [### 2. Configure the Inventory File](#2-configure-the-inventory-file)
+  [2. Configure the Inventory File](#2-configure-the-inventory-file)
   
-  [### 3. Verify Ansible Connectivity](#3-verify-ansible-connectivity)
+  [3. Verify Ansible Connectivity](#3-verify-ansible-connectivity)
   
-[## Notes:](#notes)
+[Notes:](#notes)
 
-[## Steps:](#steps)
+[Steps:](#steps)
 
-  [### 1. Create the required `roles`](#1-create-the-required-roles)
+  [1. Create the required `roles`](#1-create-the-required-roles)
   
-  [### 2. Start by Installing necessary packages [Preinstall_role](./roles/Preinstall/tasks/main.yml)](#2-start-by-installing-necessary-packages-preinstall_role)
+  [2. Start by Installing necessary packages [Preinstall_role](./roles/Preinstall/tasks/main.yml)](#2-start-by-installing-necessary-packages-preinstall_role)
   
-  [### 3. Install Docker [Docker_role](./roles/Docker/tasks/main.yml) and don't forget to define the handlers.](#3-install-docker-docker_role-and-dont-forget-to-define-the-handlers)
+  [3. Install Docker [Docker_role](./roles/Docker/tasks/main.yml) and don't forget to define the handlers.](#3-install-docker-docker_role-and-dont-forget-to-define-the-handlers)
   
-  [### 4. Install Jenkins [Jenkins_role](./roles/Jenkins/tasks/main.yml) and don't forget to define the handlers.](#4-install-jenkins-jenkins_role-and-dont-forget-to-define-the-handlers)
+  [4. Install Jenkins [Jenkins_role](./roles/Jenkins/tasks/main.yml) and don't forget to define the handlers.](#4-install-jenkins-jenkins_role-and-dont-forget-to-define-the-handlers)
   
-  [### 5. Install SonarQube [SonarQube_role](./roles/SonarQube/tasks/main.yml) and pay attention to the variables and also the handlers.](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
+  [5. Install SonarQube [SonarQube_role](./roles/SonarQube/tasks/main.yml) and pay attention to the variables and also the handlers.](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
   
-[## Notes:](#notes-1)
+[Notes:](#notes-1)
 
-[### Installing and Configuring PostgreSQL.](#installing-and-configuring-postgresql)
+[Installing and Configuring PostgreSQL.](#installing-and-configuring-postgresql)
 
-[### Installing and Configuring SonarQube](#installing-and-configuring-sonarqube)
+[Installing and Configuring SonarQube](#installing-and-configuring-sonarqube)
 
-[### Setup systemD Service](#setup-systemd-service)
+[Setup systemD Service](#setup-systemd-service)
 
 ## Ansible Structure 
 
