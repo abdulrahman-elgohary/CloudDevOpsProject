@@ -386,30 +386,36 @@ sudo cat /var/jenkins_home/secrets/initialAdminPassword
       """
   }
   ```
+### Step 8. Create a Pipeline project
 
+- Add the link of the Repo : https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git in the Pipeline Section
+- Change the branch to main
+- Add the git repo credentials that you created earlier
+- Insert the path of Jenkinsfile in the Repo to the `Scriptpath` Section
+- The content of [Jenkinsfile](./Jenkinsfile)
 ---
-### Step 8. Minikube Cluster
+### Step 9. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
 
   ![image](https://github.com/user-attachments/assets/9dfd1d45-2edc-42b4-8e4d-4b29b95d240f)
 
-8.1 **Upate the system**
+9.1 **Upate the system**
   
   ```bash
   sudo apt update
   ```
-8.2 **Install Docker**
+9.2 **Install Docker**
 
 ```bash
 sudo apt install -y docker.io
 ```
-8.3 **Add the user system to the docker group**
+9.3 **Add the user system to the docker group**
 
 ```bash
 sudo usermod -aG docker $USER
 ```
-8.4 **Download and Install Minikube**
+9.4 **Download and Install Minikube**
 
   ```bash
   curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
@@ -424,7 +430,7 @@ sudo usermod -aG docker $USER
   ```bash
   minikube start --driver=docker
   ```
-8.5 **Install Kubectl** 
+9.5 **Install Kubectl** 
 
 ```bash
 curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
@@ -432,7 +438,7 @@ chmod +x kubectl
 sudo mv kubectl /usr/local/bin/
 kubectl version --client
 ```
-8.6 **Install Kubectl Compeletion**
+9.6 **Install Kubectl Compeletion**
 
 ```bash
 sudo apt-get install -y bash-completion
@@ -440,13 +446,13 @@ source <(kubectl completion bash)
 source ~/.bashrc
 ```
 ---
-### Step 9: Create the Cluster resources
+### Step 10: Create the Cluster resources
 - Create a file called `deployment.yml` and insert the following entries: **[deployment.yml content](./FinalProjectCode/deployment.yml)**
 
 - Expose the deployment by creatin a file called `service.yml` with the following entries: **[service.yml content](./FinalProjectCode/service.yml)**
 
 ---
-### Step 10: Argocd Installation
+### Step 11: Argocd Installation
 
 10.1 **Create a Namespace for Argo CD**
 
@@ -477,7 +483,7 @@ kubectl port-forward svc/argocd-server -n argocd 9090:443
   ```
 - Login with the username `admin` and the password retrieved earlier.
 ---
-### Step 11: Argocd Configuration 
+### Step 12: Argocd Configuration 
 - Create a File called `application.yml` and insert the following entries: **[application.yml content](./application.yml)**
 
 - Apply the Argocd configuration
