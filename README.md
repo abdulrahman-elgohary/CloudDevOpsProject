@@ -16,10 +16,11 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [**Step 5:** Create the Shared Library](#step-5-create-the-shared-library)
   - [**Step 6:** SonarQube Configuration](#step-6-sonarqube-configuration)
   - [**Step 7:** Shared Library functions](#step-7-shared-library-functions)
-  - [**Step 8:** Minikube Cluster](#step-8-minikube-cluster)
-  - [**Step 9:** Create the Cluster resources](#step-9-create-the-cluster-resources)
-  - [**Step 10:** Argocd Installation](#step-10-argocd-installation)
-  - [**Step 11:** Argocd Configuration](#step-11-argocd-configuration)
+  - [**Step 8:** Create a Pipeline project](#step-8-create-a-pipeline-project)
+  - [**Step 9:** Minikube Cluster](#step-9-minikube-cluster)
+  - [**Step 10:** Create the Cluster resources](#step-10-create-the-cluster-resources)
+  - [**Step 11:** Argocd Installation](#step-11-argocd-installation)
+  - [**Step 12:** Argocd Configuration](#step-12-argocd-configuration)
 
 
 ---
