@@ -99,7 +99,25 @@ CloudDevOpsProject/
 
 ```
 ---
+## Table of Contents
 
+- [CI/CD Pipeline Overview](#ci/cd-pipeline-overview)
+- [Project Structure](#project-structure)
+- [Prequisites](#prequesites)
+  - [Step 1: Create a Github Repository](#step-1-create-a-github-repository)
+  - [Step 2: Install Git in your machine](#step-2-install-git-in-your-machine)
+- [Steps](#steps)
+  - [Step 1: Establish the Infrastructure using Terraform](#step-1-establish-the-infrastructure-using-terraform)
+  - [Step 2: Configure the Infrastructure using Ansible](#step-2-configure-the-infrastructure-using-ansible)
+  - [Step 3: Jenkins Configuration](#step-3-jenkins-configuartion)
+    - [Access Jenkins Web Interface](#access-jenkins-web-interface)
+    - [Retrieve Admin Password](#retrieve-admin-password)
+    - [Complete the Setup Wizard](#complete-the-setup-wizard)
+    - [Set Up a Jenkins Slave](#set-up-a-jenkins-slave)
+    - [Create the Shared Library](#create-the-shared-library)
+    - [Install SonarQube Scanner Plugin](#install-sonarqube-scanner-plugin)
+    - [Configure SonarQube Token](#configure-sonarqube-token)
+---
 ## Prequesites
 ### Step 1: Create a Github Repository
 
