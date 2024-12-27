@@ -129,6 +129,11 @@ touch roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},S
 
 ### 5. Install SonarQube [SonarQube_role](./roles/SonarQube/tasks/main.yml) and pay attention to the variables and also the handlers.
 
+- Now you can run the `playbook.yml`
+```bash
+ansible-playbook playbook.yml
+```
+---
 ## Notes:
 - Installing SonarQube can be challenging so you can start installing it manually using the following steps first then you can automate the process using ansible later.
 
@@ -327,7 +332,6 @@ WantedBy=multi-user.target
 sudo systemctl enable sonar
 ```
 - Start the SonarQube service.
-- 
 ```bash
 sudo systemctl start sonar
 ```
