@@ -37,7 +37,7 @@ variable "ec2-sg-name" {
 
 # Ec2 variables
 variable "instance_type" {
-    type = string
+    type = list(string)
 }
 
 variable "ec2_key" {
@@ -45,5 +45,5 @@ variable "ec2_key" {
 }
 
 variable "ec2_name" {
-     type = string
+     type = list(string)
 }

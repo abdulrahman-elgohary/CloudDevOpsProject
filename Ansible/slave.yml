@@ -1,0 +1,47 @@
+---
+- name: Target EC2 instances with tag Name=slave-ec2
+  hosts: tag_slave_ec2  # This corresponds to the group created by keyed_groups
+  become: true
+  tasks:
+    - name: Ensure openjdk-17-jdk is installed
+      ansible.builtin.apt:
+        name: openjdk-17-jdk
+        state: present
+
+    - name: Download kubectl binary
+      ansible.builtin.get_url:
+        url: "https://dl.k8s.io/release/{{ kubectl_version }}/bin/linux/amd64/kubectl"
+        dest: /usr/local/bin/kubectl
+        mode: '0755'
+      vars:
+        kubectl_version: "{{ lookup('url', 'https://dl.k8s.io/release/stable.txt') }}"
+
+    - name: Verify kubectl installation
+      ansible.builtin.shell: kubectl version --client
+      register: kubectl_output
+      changed_when: false
+      failed_when: "'Client Version' not in kubectl_output.stdout"
+
+    - name: Ensure Docker is installed
+      ansible.builtin.apt:
+        name: docker.io
+        state: present
+
+    - name: Change permissions for /var/run/docker.sock
+      ansible.builtin.file:
+        path: /var/run/docker.sock
+        mode: '0662'
+
+    - name: Generate SSH key pair for pushing to GitHub
+      ansible.builtin.openssh_keypair:
+        path: /home/{{ ec2_user }}/.ssh/id_rsa
+        size: 4096
+        type: rsa
+        owner: "{{ ec2_user }}"
+        group: "{{ ec2_user }}"
+        mode: '0600'
+      vars:
+        ec2_user: ubuntu
+
+  
+  

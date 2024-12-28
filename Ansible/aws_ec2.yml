@@ -3,10 +3,9 @@ regions:
   - us-east-1        # Replace with your AWS region
 filters:
   instance-state-name: running
-  tag:Name: ivolve_ec2
 keyed_groups:
   - key: tags.Name
-    prefix: tag  
+    prefix: tag    
 hostnames:
   - ip-address # Use the public IP address as the hostname
   - tags

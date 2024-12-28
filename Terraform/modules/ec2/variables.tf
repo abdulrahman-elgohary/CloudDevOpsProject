@@ -25,7 +25,7 @@ data "aws_ami" "ubuntu_22" {
 
 
 variable "instance_type" {
-    type = string
+    type = list(string)
 }
 
 variable "sg_id" {
@@ -36,8 +36,9 @@ variable "subnet_id" {
     type = string
 }
 
+
 variable "ec2_name" {
-     type = string
+     type = list(string)
 }
 
 variable "ec2_key" {

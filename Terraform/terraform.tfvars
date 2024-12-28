@@ -9,6 +9,6 @@ availability_zone = "us-east-1a"
 public_route_table_name = "public_route_table"
 
 ec2-sg-name = "public-sg"
-instance_type = "t3.xlarge"
-ec2_name = "ivolve_ec2"
+instance_type = ["t3.xlarge","t2.small"]
+ec2_name = ["ivolve_ec2","slave_ec2"]
 ec2_key = "Slave"
