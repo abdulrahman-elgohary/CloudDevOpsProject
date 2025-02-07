@@ -175,12 +175,12 @@ git remote add origin <Git-Repo-ssh-Url>
 ### Step 3: Jenkins Configuartion
 3.1. **Access Jenkins Web Interface**
 
-- Open a browser and navigate to http://<server-ip>:8080.
+- Open a browser and navigate to http://(server-ip):8080.
 
 3.2. **Retrieve Admin Password**
 
 ```bash
-sudo cat /var/jenkins_home/secrets/initialAdminPassword
+sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ```
 3.3. **Complete the Setup Wizard**
 
