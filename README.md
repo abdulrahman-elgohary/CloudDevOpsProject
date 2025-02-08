@@ -221,17 +221,19 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
   ```
 - **Copy public key content of `~/.ssh/id_rsa.pub`**
 - Navigate to `Github Account` > `Settings` > `SSH and GPG Keys` > Paste the Content here and Add the SSH Key
+- This will make the Jenkins Slave able to fetch and push from and to Github account
 
   ![image](https://github.com/user-attachments/assets/1e1bc4b1-5ed5-485d-9a6e-de5d4aae5e83)
 
-- **Copy the private key content of `~/.ssh/id_rsa`**
+- **Copy the private key content of the Ec2  `Slave.pem`**
 - Navigate to `Manage Jenkins` > `Credentials` > `New Credential`
 - Choose the type `SSH username and private key`
 - Paste the content of the private key.
-
+  
 - Navigate to `Manage Jenkins` > `Manage Nodes and Clouds` > `New Node`.
 - Name the node (e.g., k8s-slave) and choose Permanent Agent.
-
+- In `Host Key Verification Strategy` Choose `Non verifying Verification Strategy`
+- In `Remote root Directory` insert the full path of the Directory that will hold all the storage of the slave 
   ![image](https://github.com/user-attachments/assets/e797a31c-66ec-4933-a892-3fa01dd2246a)
 
 - **Create Required Ceredentials**
