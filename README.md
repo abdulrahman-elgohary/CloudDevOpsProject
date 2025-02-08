@@ -253,7 +253,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
   mkdir /home/ubuntu/jenkins
   ```
 - Set the Remote Root Directory (e.g., /home/ubuntu/jenkins/).
-- Insert `my-slave` in the label section
+- Insert `my-slave` in the label section (This label will be used later in the Jenkinsfile)
 - Provide the Launch Method (e.g., SSH).
 - Choose the earlier created credentials for the ec2. 
 - Create the node
