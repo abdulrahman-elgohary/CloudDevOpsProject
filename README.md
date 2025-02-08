@@ -214,6 +214,15 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
   ```bash
   sudo chmod 662 /var/run/docker.sock
   ```
+
+- **Create Required Ceredentials**
+  
+- *Create Credentials for the Jenkins to be able to access the dockerhub repo*
+- `Manage Jenkins` >> `Credentials` >> `Add Credentials`
+- Choose username and password credentials and name it `Docker-Hub`.
+  
+  ![image](https://github.com/user-attachments/assets/4848a79d-1a99-4775-a5de-2fc4a0bcf515)
+
 - **Generate ssh key to make the slave able to push changes to Github**
 
   ```bash
@@ -236,13 +245,6 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - In `Remote root Directory` insert the full path of the Directory that will hold all the storage of the slave 
   ![image](https://github.com/user-attachments/assets/e797a31c-66ec-4933-a892-3fa01dd2246a)
 
-- **Create Required Ceredentials**
-  
-- *Create Credentials for the Jenkins to be able to access the dockerhub repo*
-- `Manage Jenkins` >> `Credentials` >> `Add Credentials`
-- Choose username and password credentials and name it `Docker-Hub`.
-  
-  ![image](https://github.com/user-attachments/assets/4848a79d-1a99-4775-a5de-2fc4a0bcf515)
 ---
 - **Configure the Node Setting**
 
@@ -286,7 +288,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Navigate to `Manage Jenkins` > `Tools` > `SonarQube Scanner installations` > Give it a name `SonarQube`.
 
 - **Configure SonarQube Token**
-- Navigate to `SonarQube` UI > `Administration` > `Update Token`.
+- Navigate to `SonarQube` UI > `Administration` > `Security` > `User` > `Update Token`.
   
   ![image](https://github.com/user-attachments/assets/2220208b-41ed-4914-8a7c-4c1b8cfde3fd)
 
