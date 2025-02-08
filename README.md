@@ -267,7 +267,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Navigate to `Manage Jenkins` > `Configure System` > `Global Trusted Pipeline Libraries`.
 - Add a library name (e.g., shared-lib). (Pay attention to the name it should match the name of the repo)
 - Point it to the Git repository containing the shared library.
-- Choose the branch that hold your library
+- Under `Version` insert the branch name that hold your library
 - Structure the shared library repository:
   
   ```bash
