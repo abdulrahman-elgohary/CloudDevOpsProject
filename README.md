@@ -293,6 +293,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
   ![image](https://github.com/user-attachments/assets/2220208b-41ed-4914-8a7c-4c1b8cfde3fd)
 
 - Navigate to `Manage Jenkins` > `System` >`SonarQube servers` add your environmental variables.
+- Create a new Credential for SonarQube using the genreated Token
 
   ![image](https://github.com/user-attachments/assets/a7917ea1-e2ec-4d2d-9121-9773d5a9fc5f)
 ---  
