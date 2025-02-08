@@ -1,7 +1,7 @@
 @Library('jenkins-shared-library') _
 pipeline {
     agent {
-        label 'Build-Agent'
+        label 'my_slave'
     }
     
     environment {
