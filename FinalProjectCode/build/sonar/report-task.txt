@@ -2,5 +2,5 @@ projectKey=clouddevopsproject
 serverUrl=http://34.238.243.144:9000
 serverVersion=9.9.1.69595
 dashboardUrl=http://34.238.243.144:9000/dashboard?id=clouddevopsproject
-ceTaskId=AZTqQyXjfLG3mokwZpiT
-ceTaskUrl=http://34.238.243.144:9000/api/ce/task?id=AZTqQyXjfLG3mokwZpiT
+ceTaskId=AZTqQ-pCfLG3mokwZpiU
+ceTaskUrl=http://34.238.243.144:9000/api/ce/task?id=AZTqQ-pCfLG3mokwZpiU
