@@ -36,8 +36,8 @@ pipeline {
                     // Fetch the latest commit message
                     def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
 
-                    // Skip the build if the commit message contains "[skip ci]"
-                    if (commitMessage.contains("[skip ci]")) {
+                    // Skip the build if the commit message contains "[ci skip"
+                    if (commitMessage.contains("[ci skip]")) {
                         echo "Skipping build due to commit message: ${commitMessage}"
                         error("Build skipped due to commit message: ${commitMessage}")
                     }
