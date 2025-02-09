@@ -392,13 +392,15 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
       """
   }
   ```
-### Step 8. Create a Pipeline project
+### Step 8. Create a Pipeline project with `Webhook` to Github
 
 - Add the link of the Repo : https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git in the Pipeline Section
 - Change the branch to main
 - Add the git repo credentials that you created earlier
 - Insert the path of Jenkinsfile in the Repo to the `Scriptpath` Section
 - The content of [Jenkinsfile](./Jenkinsfile)
+- Check the box of `GitHub hook trigger for GITScm polling`
+- Navigate to your Github Repository `Settings` > From Left Bar choose `Webhooks` > Add new Webhook > In `Payload URL` Insert `http:(Jenkins-Server-IP:Port)/github-webhook/` > In `Content Type` Choose `application/json` > Save 
 ---
 ### Step 9. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
