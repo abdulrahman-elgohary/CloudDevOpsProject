@@ -17,9 +17,9 @@ spec:
       containers:
       - name: ivolve
 <<<<<<< Updated upstream
-        image: gohary101/ivolve-app:35
+        image: gohary101/ivolve-app:36
 =======
-        image: gohary101/ivolve-app:35
+        image: gohary101/ivolve-app:36
 >>>>>>> Stashed changes
         ports:
         - containerPort: 8081
