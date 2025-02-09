@@ -136,7 +136,7 @@ sudo apt update -y
 sudo apt install git -y
 ```
 
-- Create a directory for the project and name it `Graduation_Project`.
+- Create a directory for the project and name it `Graduation_Project`
 ```bash
 mkdir Graduation_Project
 ```
