@@ -39,8 +39,7 @@ pipeline {
                     // Skip the build if the commit message contains "[skip ci]"
                     if (commitMessage.contains("[skip ci]")) {
                         echo "Skipping build due to commit message: ${commitMessage}"
-                        currentBuild.result = 'ABORTED'
-                        return
+                        error("Build skipped due to commit message: ${commitMessage}")
                     }
                 }
             }
