@@ -486,7 +486,7 @@ kubectl get svc -n argocd argocd-server
 ```
 https://<EXTERNAL-IP>
 ```
-  ![image](https://github.com/user-attachments/assets/3118e78c-b357-4480-aa1f-86c09bedbc23)
+![image](https://github.com/user-attachments/assets/edc0b527-231a-47ea-ad84-1bb93b521b22)
 
 10.4 **Login to Argo CD**
 
