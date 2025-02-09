@@ -1,5 +1,5 @@
 ---
-- name: Target EC2 instances with tag Name=slave-ec2
+- name: Configure the Jenkins Slave 
   hosts: tag_slave_ec2  # This corresponds to the group created by keyed_groups
   become: true
   tasks:
@@ -31,8 +31,18 @@
       ansible.builtin.file:
         path: /var/run/docker.sock
         mode: '0662'
+     
+    - name: Create the Remote Directory for the Slave
+      ansible.builtin.file:
+        path: /home/{{ ec2_user }}/jenkins-slave
+        state: directory
+        owner: "{{ ec2_user }}"
+        group: "{{ ec2_user }}"
+        mode: '0755'
+      vars:
+        ec2_user: ubuntu
 
-    - name: Generate SSH key pair for pushing to GitHub
+    - name: Generate SSH key pair for pushing to GitHub and Using Jenkins Slave 
       ansible.builtin.openssh_keypair:
         path: /home/{{ ec2_user }}/.ssh/id_rsa
         size: 4096
@@ -42,6 +52,15 @@
         mode: '0600'
       vars:
         ec2_user: ubuntu
+      register: ssh_key
 
-  
-  
+    - name: Adding Github to Known hosts 
+      ansible.builtin.shell: ssh-keyscan -H github.com >> /home/{{ec2_user}}/.ssh/known_hosts
+      vars:
+        ec2_user: ubuntu
+        
+    - name: Copy the following ssh Public key to your Github Account
+      ansible.builtin.debug:
+         msg: "{{ ssh_key.public_key}}"
+
+    

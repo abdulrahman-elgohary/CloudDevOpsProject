@@ -32,4 +32,16 @@
     port: 8080
     proto: tcp
 
-    
+- name: Information to access Jenkins
+  ansible.builtin.debug:
+    msg: "Jenkins is accessible at http://{{ ansible_host }}:8080"
+
+- name: Read initialAdminPassword
+  ansible.builtin.slurp:
+    src: /var/lib/jenkins/secrets/initialAdminPassword
+  register: jenkins_password
+
+- name: Display Jenkins Initial Password
+  debug:
+    msg: "Jenkins Admin Password: {{jenkins_password['content'] |b64decode | trim }}"
+

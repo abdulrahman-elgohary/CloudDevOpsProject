@@ -5,17 +5,15 @@
 
   roles:
 
-  - Preinstall
+   - Preinstall
+
+
+   - Docker
+
+
+   - Jenkins
   
 
-  - Docker
 
-
-  - Jenkins
-
-
-  - SonarQube
-
-
-  
-  
+   - role: SonarQube
+     tags: s
