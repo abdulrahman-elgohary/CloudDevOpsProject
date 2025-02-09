@@ -16,7 +16,7 @@ pipeline {
         REPO_URL = 'https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git'
         REPO_SSH = 'git@github.com:abdulrahman-elgohary/CloudDevOpsProject.git'
         REPO_NAME = 'CloudDevOpsProject'
-        BRANCH = 'more-automate'
+        BRANCH = 'main'
         BUILD_NUMBER = "${env.BUILD_NUMBER}"
     }
     
