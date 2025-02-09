@@ -24,17 +24,18 @@ pipeline {
         stage('Check Commit Message') {
             steps {
                 script {
-                    // Get the commit message from the environment variable
-                    def commitMessage = env.GIT_COMMIT_MESSAGE
+                    // Fetch the latest commit message
+                    def commitMessage = sh(script: 'git log -1 --pretty=%B', returnStdout: true).trim()
+
+                    // Skip the build if the commit message contains "[skip ci]"
                     if (commitMessage.contains("[skip ci]")) {
-                        // Skip the build if the commit message contains "[skip ci]"
                         echo "Skipping build due to commit message: ${commitMessage}"
                         currentBuild.result = 'ABORTED'
                         return
                     }
                 }
             }
-        }
+        }g
         stage('Checkout Code') {
             steps {
                 script {
