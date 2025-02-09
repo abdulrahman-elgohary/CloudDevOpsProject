@@ -140,8 +140,7 @@ sudo apt install git -y
 ```bash
 mkdir Graduation_Project
 ```
-- Navigate to the created directory
-
+- Navigate to the created directory.
 ```bash
 cd Graduation_Project
 ```
