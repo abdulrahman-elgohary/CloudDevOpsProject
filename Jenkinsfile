@@ -22,6 +22,14 @@ pipeline {
     
     stages {
 
+        
+        stage('Checkout Code') {
+            steps {
+                script {
+                    gitCheckout(REPO_URL,BRANCH)
+                }
+            }
+        }
         stage('Check Commit Message') {
             steps {
                 script {
@@ -32,19 +40,9 @@ pipeline {
                         echo "Skipping build due to commit message: ${commitMessage}"
                         currentBuild.result = 'ABORTED'
                         return
-                    }
                 }
             }
         }
-        
-        stage('Checkout Code') {
-            steps {
-                script {
-                    gitCheckout(REPO_URL,BRANCH)
-                }
-            }
-        }
-
         stage('Unit Test') {
             steps {
                 script {
