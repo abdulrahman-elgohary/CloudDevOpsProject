@@ -21,8 +21,6 @@ pipeline {
     }
     
     stages {
-
-        
         stage('Checkout Code') {
             steps {
                 script {
@@ -40,9 +38,10 @@ pipeline {
                         echo "Skipping build due to commit message: ${commitMessage}"
                         currentBuild.result = 'ABORTED'
                         return
+                    }
                 }
             }
-        }
+
         stage('Unit Test') {
             steps {
                 script {
