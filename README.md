@@ -472,13 +472,20 @@ kubectl create namespace argocd
 kubectl apply -n argocd -f https://raw.githubusercontent.com/argoproj/argo-cd/stable/manifests/install.yaml
 ```
 
-10.3 **Expose the Argo CD Server**
+10.3 **Expose the Argo CD Server by LoadBalancer**
 
+-  Patch the ArgoCD server service
 ```bash
-kubectl port-forward svc/argocd-server -n argocd 9090:443
+kubectl patch svc argocd-server -n argocd -p '{"spec": {"type": "LoadBalancer"}}'
 ```
-- You can now access Argo CD at https://localhost:9090.
-
+- Get the External URL
+```bash
+kubectl get svc -n argocd argocd-server
+```
+- Look for the EXTERNAL-IP column and access ArgoCD at:
+```
+https://<EXTERNAL-IP>
+```
   ![image](https://github.com/user-attachments/assets/3118e78c-b357-4480-aa1f-86c09bedbc23)
 
 10.4 **Login to Argo CD**
