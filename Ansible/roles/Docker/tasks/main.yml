@@ -27,3 +27,17 @@
     name: "{{ ansible_user }}"
     groups: docker
     append: yes
+
+- name: Enabling Docker metrics
+  ansible.builtin.copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+        "metrics-addr" : "0.0.0.0:9323",
+        "experimental" : true
+      }
+  notify: Restart Docker
+
+- name: Display Access Metrics Url
+  ansible.builtin.debug: 
+    msg: "You can access Docker Metrics at http://{{ansible_host}}:9323/metrics"

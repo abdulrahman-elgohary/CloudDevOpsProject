@@ -8,7 +8,8 @@
    - Preinstall
 
 
-   - Docker
+   - role: Docker
+     tags: D
 
 
    - Jenkins
