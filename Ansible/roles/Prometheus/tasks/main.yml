@@ -112,14 +112,14 @@
             - job_name: 'jenkins'
               metrics_path: '/prometheus'
               basic_auth:
-              username: 'prometheus-user'
-              password: '123'
+                username: 'prometheus-user'
+                password: '123'
               static_configs:
-                - targets: ["34.238.243.144:8080"]
+                - targets: ["{{ansible_host}}:8080"]
 
             - job_name: 'docker'
               static_configs:
-                - targets: ["34.238.243.144:9323"]
+                - targets: ["{{ansible_host}}:9323"]
   notify: Restart Prometheus
 
 - name: Open Ports of Prometheus
