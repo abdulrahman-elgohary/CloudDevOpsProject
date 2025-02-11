@@ -7,14 +7,11 @@
 
    - Preinstall
 
-
-   - role: Docker
-     tags: D
-
+   - Docker
 
    - Jenkins
-  
 
-
-   - role: SonarQube
-     tags: s
+   - SonarQube
+   
+   - role: Prometheus
+     tags: p

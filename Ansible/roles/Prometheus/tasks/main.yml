@@ -1,0 +1,134 @@
+- name: Update the system
+  ansible.builtin.apt:
+     update_cache: yes
+    
+- name: Create a Prometheus user without home directory and with no shell
+  ansible.builtin.user:
+    name: prometheus
+    create_home: no
+    shell: /usr/sbin/nologin
+
+- name: Create a directory for Prometheus
+  ansible.builtin.file:
+    path: "{{item}}"
+    state: directory
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+  loop:
+    - /etc/prometheus
+    - /var/lib/prometheus
+    - /opt/prometheus
+
+- name: Download Prometheus
+  ansible.builtin.get_url:
+    url: https://github.com/prometheus/prometheus/releases/download/v2.45.0/prometheus-2.45.0.linux-amd64.tar.gz
+    dest: /opt/prometheus/prometheus-2.45.0.linux-amd64.tar.gz
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+
+- name: Extract Prometheus
+  ansible.builtin.unarchive:
+    src: /opt/prometheus/prometheus-2.45.0.linux-amd64.tar.gz
+    dest: /opt/prometheus
+    remote_src: yes
+    owner: prometheus
+    group: prometheus
+
+- name: Copy Prometheus service file
+  ansible.builtin.copy:
+    src: "{{item['src']}}"
+    dest: "{{item['dest']}}"
+    owner: prometheus
+    group: prometheus
+    mode: '0755'
+    remote_src: yes
+  loop:
+    - src: /opt/prometheus/prometheus-2.45.0.linux-amd64/prometheus
+      dest: /usr/local/bin/
+    - src: /opt/prometheus/prometheus-2.45.0.linux-amd64/promtool
+      dest: /usr/local/bin/
+    - src: /opt/prometheus/prometheus-2.45.0.linux-amd64/consoles
+      dest: /etc/prometheus/
+    - src: /opt/prometheus/prometheus-2.45.0.linux-amd64/console_libraries
+      dest: /etc/prometheus/
+    - src: /opt/prometheus/prometheus-2.45.0.linux-amd64/prometheus.yml
+      dest: /etc/prometheus/
+
+- name: Remove Prometheus service files from it's origin
+  ansible.builtin.file:
+    path: "{{item}}" 
+    state: absent  
+  loop:
+    - /opt/prometheus/prometheus-2.45.0.linux-amd64/prometheus
+    - /opt/prometheus/prometheus-2.45.0.linux-amd64/promtool
+    - /opt/prometheus/prometheus-2.45.0.linux-amd64/consoles
+    - /opt/prometheus/prometheus-2.45.0.linux-amd64/console_libraries
+    - /opt/prometheus/prometheus-2.45.0.linux-amd64/prometheus.yml
+
+- name: Configure Prometheus
+  ansible.builtin.copy:
+    dest: /etc/systemd/system/prometheus.service
+    content: |
+      [Unit]
+      Description=Prometheus
+      Wants=network-online.target
+      After=network-online.target
+
+      [Service]
+      User=prometheus
+      Group=prometheus
+      Type=simple
+      ExecStart=/usr/local/bin/prometheus \
+          --config.file /etc/prometheus/prometheus.yml \
+          --storage.tsdb.path /var/lib/prometheus/ \
+          --web.console.templates=/etc/prometheus/consoles \
+          --web.console.libraries=/etc/prometheus/console_libraries
+
+      [Install]
+      WantedBy=multi-user.target
+  notify: Restart SystemD
+
+- name: Flush hundlers
+  meta: flush_handlers
+
+- name: Start Prometheus Service
+  ansible.builtin.service:
+    name: prometheus
+    state: started
+    enabled: true
+
+- name: Display the Prometheus Url 
+  ansible.builtin.debug:
+    msg: "You Can Access Prometheus at http://{{ansible_host}}:9090"
+
+- name: Configure Prometheus to Scrape Metrics
+  ansible.builtin.blockinfile:
+    dest: /etc/prometheus/prometheus.yml
+    insertafter: '^scrape_configs:'
+    block: |
+          ##
+            - job_name: 'jenkins'
+              metrics_path: '/prometheus'
+              basic_auth:
+              username: 'prometheus-user'
+              password: '123'
+              static_configs:
+                - targets: ["34.238.243.144:8080"]
+
+            - job_name: 'docker'
+              static_configs:
+                - targets: ["34.238.243.144:9323"]
+  notify: Restart Prometheus
+
+- name: Open Ports of Prometheus
+  ansible.builtin.ufw:
+    rule: allow
+    port: 9090
+    proto: tcp
+
+      
+
+
+      
