@@ -347,3 +347,5 @@ http://<Your-Server-IP>:9000
 - Insert `admin` for both username and password
 
 ![image](https://github.com/user-attachments/assets/ddd11575-fa45-49ed-a857-50da20e9e4ab)
+
+### 6. Install Prometheus [Prometheus_role](./roles/Prometheus/tasks/main.yml)
