@@ -399,7 +399,15 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Insert the path of Jenkinsfile in the Repo to the `Scriptpath` Section
 - The content of [Jenkinsfile](./Jenkinsfile)
 - Check the box of `GitHub hook trigger for GITScm polling`
-- Navigate to your Github Repository `Settings` > From Left Bar choose `Webhooks` > Add new Webhook > In `Payload URL` Insert `http:(Jenkins-Server-IP:Port)/github-webhook/` > In `Content Type` Choose `application/json` > Save 
+- Navigate to your Github Repository `Settings` > From Left Bar choose `Webhooks` > Add new Webhook > In `Payload URL` Insert `http:(Jenkins-Server-IP:Port)/github-webhook/` > In `Content Type` Choose `application/json` > Save
+
+### Step 9. Configure Jenkins For Prometheus
+- Navigate to `Manage Jenkins` > `Security` > Under `Authirization` Choose `Role-Based Strategy`.
+- Navigate to `Manage Jenkins` > `Users` > `Create User` > Name the User `prometheus-user` give it a password ( will be used in the prometheus job configuration).
+- Navigate to `Manage Jenkins` > `Manage and assign roles` > Add a Role and name it `prometheus` and give it `Overall Read & view Metrics`.
+- Choose `Assign Roles` from the left bar > `Add User` and Choose the Created Promethues-user > Assign the Created Role Prometheus to the Created User.
+- Save and Exit. 
+
 ---
 ### Step 9. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
