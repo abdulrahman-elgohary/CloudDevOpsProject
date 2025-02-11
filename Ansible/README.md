@@ -17,7 +17,7 @@
   - [3. Install Docker `Docker_role`](#3-install-docker-docker_role-and-dont-forget-to-define-the-handlers)
   - [4. Install Jenkins `Jenkins_role`](#4-install-jenkins-jenkins_role-and-dont-forget-to-define-the-handlers)
   - [5. Install SonarQube `SonarQube_role`](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
-  - [6. Install Prometheus `Prometheus_role`](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
+  - [6. Install Prometheus `Prometheus_role`](#6-install-prometheus-prometheus_role)
 
 - **[Notes](#notes-1)**
 
