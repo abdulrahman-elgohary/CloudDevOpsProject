@@ -19,7 +19,7 @@
   - [5. Install SonarQube `SonarQube_role`](#5-install-sonarqube-sonarqube_role-and-pay-attention-to-the-variables-and-also-the-handlers)
   - [6. Install Prometheus `Prometheus_role`](#6-install-prometheus-prometheus_role)
   - [7. Install Grafana `Grafana role`](#7-install-grafana-grafana_role)
----
+
 - **[Notes](#notes-1)**
 
 - **[Installing and Configuring PostgreSQL.](#installing-and-configuring-postgresql)**
@@ -27,7 +27,7 @@
 - **[Installing and Configuring SonarQube](#installing-and-configuring-sonarqube)**
 
 - **[Setup systemD Service](#setup-systemd-service)**
-
+---
 ## Ansible Structure 
 
 ![image](https://github.com/user-attachments/assets/093925f9-3242-44dc-bc84-31122c2e30a4)
