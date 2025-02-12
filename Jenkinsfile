@@ -40,10 +40,6 @@ pipeline {
                     if (commitMessage.contains("[ci skip]")) {
                         echo "Skipping build due to commit message: ${commitMessage}"
                         currentBuild.result = 'ABORTED'
-
-                        // Add delay to prevent immediate retrigger
-                        sleep time: 60, unit: 'SECONDS'
-
                         return // Exit the stage
                     }
                 }
@@ -55,6 +51,8 @@ pipeline {
         stage('Unit Test') {
             steps {
                 script {
+                    // Add delay to prevent immediate retrigger
+                    sleep time: 60, unit: 'SECONDS'
                     unitTest()
                 }
             }
