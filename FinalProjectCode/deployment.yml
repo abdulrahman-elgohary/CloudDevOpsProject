@@ -16,6 +16,6 @@ spec:
     spec:
       containers:
       - name: ivolve
-        image: gohary101/ivolve-app:153
+        image: gohary101/ivolve-app:154
         ports:
         - containerPort: 8081
