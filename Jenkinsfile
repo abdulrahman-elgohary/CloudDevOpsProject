@@ -42,7 +42,7 @@ pipeline {
                         currentBuild.result = 'ABORTED'
 
                         // Add delay to prevent immediate retrigger
-                        sleep time: 10, unit: 'SECONDS'
+                        sleep time: 60, unit: 'SECONDS'
 
                         return // Exit the stage
                     }
