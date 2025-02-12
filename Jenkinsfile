@@ -40,8 +40,6 @@ pipeline {
                     if (commitMessage.contains("[ci skip]")) {
                         echo "Skipping build due to commit message: ${commitMessage}"
                         currentBuild.result = 'ABORTED'
-                        sleep time: 20, unit: 'SECONDS'
-
                         // **Force stop the pipeline**
                         currentBuild.rawBuild.stop()
 
