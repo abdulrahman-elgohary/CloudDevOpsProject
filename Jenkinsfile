@@ -39,7 +39,12 @@ pipeline {
                     // Skip the build if the commit message contains "[ci skip"
                     if (commitMessage.contains("[ci skip]")) {
                         echo "Skipping build due to commit message: ${commitMessage}"
-                        error("Build skipped due to commit message: ${commitMessage}")
+                        currentBuild.result = 'ABORTED'
+
+                        // Add delay to prevent immediate retrigger
+                        sleep time: 10, unit: 'SECONDS'
+
+                        return // Exit the stage
                     }
                 }
             }
