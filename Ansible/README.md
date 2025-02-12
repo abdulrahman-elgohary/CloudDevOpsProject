@@ -114,8 +114,8 @@ ansible all -m ping -vvvv
 ### 1. Create the required `roles`
 
 ```bash
-mkdir -p roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},SonarQube/{tasks,handlers,vars}}
-touch roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},SonarQube/{tasks,handlers,vars}}/main.yml
+mkdir -p roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},SonarQube/{tasks,handlers,vars},Prometheus/{tasks,handlers},Grafana/{tasks,handlers}}
+touch roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},SonarQube/{tasks,handlers,vars},Prometheus/{tasks,handlers},Grafana/{tasks,handlers}}/main.yml
 ```
 ### 2. Start by Installing necessary packages [Preinstall_role](./roles/Preinstall/tasks/main.yml).
 
