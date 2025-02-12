@@ -132,7 +132,7 @@
         rule: allow
         port: 9090
         proto: tcp
-      tags: f
+ 
 
       
   handlers:

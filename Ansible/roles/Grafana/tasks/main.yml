@@ -1,0 +1,36 @@
+
+- name: Download Grafana GPG Key and Add it to the APT keyring
+  ansible.builtin.apt_key:
+    url: https://packages.grafana.com/gpg.key
+    state: present
+
+- name: Add Grafana APT Repository
+  ansible.builtin.apt_repository:
+    repo: "deb https://packages.grafana.com/oss/deb stable main"
+    state: present
+    filename: grafana.list
+  notify: Update APT Cache
+
+- name: Flush Hundlers
+  meta: flush_handlers
+
+- name: Install Grafana
+  ansible.builtin.apt:
+    name: grafana
+    state: present
+
+- name: Start and Enable grafana
+  ansible.builtin.service:
+    name: grafana-server
+    state: started
+    enabled: true
+
+- name: Open Ports of Grafana
+  ansible.builtin.ufw:
+    rule: allow
+    port: 3000
+    proto: tcp
+
+- name: Display the Grafana Url
+  ansible.builtin.debug:
+    msg: "You Can access Grafana at http://{{ansible_host}}:3000  -- Use admin/admin as user and Password"

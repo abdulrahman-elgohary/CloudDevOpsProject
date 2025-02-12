@@ -13,5 +13,8 @@
 
    - SonarQube
    
-   - role: Prometheus
-     tags: p
+   - Prometheus
+    
+
+   - role: Grafana
+     tags: g
