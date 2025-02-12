@@ -16,7 +16,7 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [**Step 5:** Create the Shared Library](#step-5-create-the-shared-library)
   - [**Step 6:** SonarQube Configuration](#step-6-sonarqube-configuration)
   - [**Step 7:** Shared Library functions](#step-7-shared-library-functions)
-  - [**Step 8:** Create a Pipeline project](#step-8-create-a-pipeline-project)
+  - [**Step 8:** Create a Pipeline project with Github Webhook](#step-8-create-a-pipeline-project-with-github-webhook)
   - [**Step 9:** Minikube Cluster](#step-9-minikube-cluster)
   - [**Step 10:** Create the Cluster resources](#step-10-create-the-cluster-resources)
   - [**Step 11:** Argocd Installation](#step-11-argocd-installation)
@@ -391,7 +391,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
       """
   }
   ```
-### Step 8. Create a Pipeline project with `Webhook` to Github
+### Step 8. Create a Pipeline project with Github `Webhook` 
 
 - Add the link of the Repo : https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git in the Pipeline Section
 - Change the branch to main
