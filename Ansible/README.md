@@ -124,6 +124,8 @@ touch roles/{Preinstall/tasks,Docker/{tasks,handlers},Jenkins/{tasks,handlers},S
 
 ### 5. Install SonarQube [SonarQube_role](./roles/SonarQube/tasks/main.yml) and pay attention to the variables and also the handlers.
 
+### 6. Install Prometheus [Prometheus_role](./roles/Prometheus/tasks/main.yml)
+
 - Now you can run the `playbook.yml`
 ```bash
 ansible-playbook playbook.yml
@@ -348,4 +350,4 @@ http://<Your-Server-IP>:9000
 
 ![image](https://github.com/user-attachments/assets/ddd11575-fa45-49ed-a857-50da20e9e4ab)
 
-### 6. Install Prometheus [Prometheus_role](./roles/Prometheus/tasks/main.yml)
+
