@@ -17,13 +17,13 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [**Step 6:** SonarQube Configuration](#step-6-sonarqube-configuration)
   - [**Step 7:** Shared Library functions](#step-7-shared-library-functions)
   - [**Step 8:** Create a Pipeline project with Github Webhook](#step-8-create-a-pipeline-project-with-github-webhook)
-  - [**Step 9:** Configure Jenkins For Prometheus](#configure-jenkins-for-prometheus)
-  - [**Step 10:** Configure Prometheus](#configure-prometheus)
-  - [**Step 11:** Configure Grafana](#configure-grafana)
-  - [**Step 12:** Minikube Cluster](#step-9-minikube-cluster)
-  - [**Step 13:** Create the Cluster resources](#step-10-create-the-cluster-resources)
-  - [**Step 14:** Argocd Installation](#step-11-argocd-installation)
-  - [**Step 15:** Argocd Configuration](#step-12-argocd-configuration)
+  - [**Step 9:** Configure Jenkins For Prometheus](#step-9-configure-jenkins-for-prometheus)
+  - [**Step 10:** Configure Prometheus](#step-10-configure-prometheus)
+  - [**Step 11:** Configure Grafana](#step-11-configure-grafana)
+  - [**Step 12:** Minikube Cluster](#step-12-minikube-cluster)
+  - [**Step 13:** Create the Cluster resources](#step-13-create-the-cluster-resources)
+  - [**Step 14:** Argocd Installation](#step-14-argocd-installation)
+  - [**Step 15:** Argocd Configuration](#step-15-argocd-configuration)
 
 
 ---
