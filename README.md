@@ -464,7 +464,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 ![image](https://github.com/user-attachments/assets/2ad185ab-ce93-4029-9f0a-3cb837f787d2)
 
-### Step 9. Minikube Cluster
+### Step 12. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
 
@@ -516,13 +516,13 @@ source <(kubectl completion bash)
 source ~/.bashrc
 ```
 ---
-### Step 10: Create the Cluster resources
+### Step 13: Create the Cluster resources
 - Create a file called `deployment.yml` and insert the following entries: **[deployment.yml content](./FinalProjectCode/deployment.yml)**
 
 - Expose the deployment by creatin a file called `service.yml` with the following entries: **[service.yml content](./FinalProjectCode/service.yml)**
 
 ---
-### Step 11: Argocd Installation
+### Step 14: Argocd Installation
 
 10.1 **Create a Namespace for Argo CD**
 
@@ -560,7 +560,7 @@ https://<EXTERNAL-IP>
   ```
 - Login with the username `admin` and the password retrieved earlier.
 ---
-### Step 12: Argocd Configuration 
+### Step 15: Argocd Configuration 
 - Create a File called `application.yml` and insert the following entries: **[application.yml content](./application.yml)**
 
 - Apply the Argocd configuration
