@@ -20,10 +20,10 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [**Step 9:** Configure Jenkins For Prometheus](#configure-jenkins-for-prometheus)
   - [**Step 10:** Configure Prometheus](#configure-prometheus)
   - [**Step 11:** Configure Grafana](#configure-grafana)
-  - [**Step 9:** Minikube Cluster](#step-9-minikube-cluster)
-  - [**Step 10:** Create the Cluster resources](#step-10-create-the-cluster-resources)
-  - [**Step 11:** Argocd Installation](#step-11-argocd-installation)
-  - [**Step 12:** Argocd Configuration](#step-12-argocd-configuration)
+  - [**Step 12:** Minikube Cluster](#step-9-minikube-cluster)
+  - [**Step 13:** Create the Cluster resources](#step-10-create-the-cluster-resources)
+  - [**Step 14:** Argocd Installation](#step-11-argocd-installation)
+  - [**Step 15:** Argocd Configuration](#step-12-argocd-configuration)
 
 
 ---
