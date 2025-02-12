@@ -449,8 +449,6 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
   
 - At the Left Bar choose `Home` > `Dashboards` > Choose `New` > `Import` > Use dashboard ID `9964` for Jenkins > Choose `Prometheus` > `Import`
 
-![image](https://github.com/user-attachments/assets/2ad185ab-ce93-4029-9f0a-3cb837f787d2)
-
 ```bash
 - job_name: 'jenkins'
               metrics_path: '/prometheus'
@@ -460,9 +458,9 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
               static_configs:
                 - targets: ["Jenkins-server-ip:8080"]
 ```
-- Navigate to Prometheus UI `Status` > `Targets` .. You can access the metrics here.
 
-![image](https://github.com/user-attachments/assets/51045993-e6f3-474f-8cb1-1bbf2ae74c82)
+![image](https://github.com/user-attachments/assets/2ad185ab-ce93-4029-9f0a-3cb837f787d2)
+
 ### Step 9. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
