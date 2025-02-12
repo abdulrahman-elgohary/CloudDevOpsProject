@@ -128,7 +128,7 @@ CloudDevOpsProject/
 - Go to https://github.com/ and create an account.
 - Create a new Repository and name it `CloudDevOpsProject`.
 - Add README.md file.
-
+---
 ### Step 2: Install Git in your machine 
 
 ```bash
@@ -187,7 +187,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Install recommended plugins and set up your admin account.
   
 ![image](https://github.com/user-attachments/assets/c7156fb9-1d79-452d-b939-549d5af23c7e)
-
+---
 ### Step 4: Setup Jenkins Slave
 
 - **Launch another Server ssh to it and Install Java.**
@@ -258,7 +258,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Create the node
 
   ![image](https://github.com/user-attachments/assets/1a999ebb-ed27-4e2b-8264-704dadba9824)
-
+---
 ## Step 5: Create the Shared Library
 
 - In Jenkins, configure the shared library:
@@ -279,6 +279,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
       ├── buildandPushImage.groovy
       ├── pushToGithub.groovy
   ```
+---
 ## Step 6: SonarQube Configuration
 
 - **Install Sonnar Qube Scanner Plugin**
@@ -391,6 +392,7 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
       """
   }
   ```
+---
 ### Step 8. Create a Pipeline project with Github `Webhook` 
 
 - Add the link of the Repo : https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git in the Pipeline Section
@@ -400,15 +402,31 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - The content of [Jenkinsfile](./Jenkinsfile)
 - Check the box of `GitHub hook trigger for GITScm polling`
 - Navigate to your Github Repository `Settings` > From Left Bar choose `Webhooks` > Add new Webhook > In `Payload URL` Insert `http:(Jenkins-Server-IP:Port)/github-webhook/` > In `Content Type` Choose `application/json` > Save
-
+---
 ### Step 9. Configure Jenkins For Prometheus
 - Navigate to `Manage Jenkins` > `Security` > Under `Authirization` Choose `Role-Based Strategy`.
 - Navigate to `Manage Jenkins` > `Users` > `Create User` > Name the User `prometheus-user` give it a password ( will be used in the prometheus job configuration).
 - Navigate to `Manage Jenkins` > `Manage and assign roles` > Add a Role and name it `prometheus` and give it `Overall Read & view Metrics`.
 - Choose `Assign Roles` from the left bar > `Add User` and Choose the Created Promethues-user > Assign the Created Role Prometheus to the Created User.
 - Save and Exit. 
-
 ---
+### Step 10. Configure Prometheus
+- Add to `/etc/prometheus/prometheus.yml` the following entry:
+- This added to Prometheus Configuration using Ansible with other Jobs
+- Give attention to the `metrics_path` it differes from application to another
+```bash
+- job_name: 'jenkins'
+              metrics_path: '/prometheus'
+              basic_auth:
+                username: 'prometheus-user'
+                password: '123'
+              static_configs:
+                - targets: ["Jenkins-server-ip:8080"]
+```
+- Navigate to Prometheus UI `Status` > `Targets` .. You can access the metrics here.
+
+![image](https://github.com/user-attachments/assets/51045993-e6f3-474f-8cb1-1bbf2ae74c82)
+
 ### Step 9. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
