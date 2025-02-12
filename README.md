@@ -396,24 +396,61 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 ### Step 8. Create a Pipeline project with Github `Webhook` 
 
 - Add the link of the Repo : https://github.com/abdulrahman-elgohary/CloudDevOpsProject.git in the Pipeline Section
+  
 - Change the branch to main
+  
 - Add the git repo credentials that you created earlier
+  
 - Insert the path of Jenkinsfile in the Repo to the `Scriptpath` Section
+  
 - The content of [Jenkinsfile](./Jenkinsfile)
+  
 - Check the box of `GitHub hook trigger for GITScm polling`
+  
 - Navigate to your Github Repository `Settings` > From Left Bar choose `Webhooks` > Add new Webhook > In `Payload URL` Insert `http:(Jenkins-Server-IP:Port)/github-webhook/` > In `Content Type` Choose `application/json` > Save
 ---
 ### Step 9. Configure Jenkins For Prometheus
 - Navigate to `Manage Jenkins` > `Security` > Under `Authirization` Choose `Role-Based Strategy`.
+  
 - Navigate to `Manage Jenkins` > `Users` > `Create User` > Name the User `prometheus-user` give it a password ( will be used in the prometheus job configuration).
+  
 - Navigate to `Manage Jenkins` > `Manage and assign roles` > Add a Role and name it `prometheus` and give it `Overall Read & view Metrics`.
+  
 - Choose `Assign Roles` from the left bar > `Add User` and Choose the Created Promethues-user > Assign the Created Role Prometheus to the Created User.
+  
 - Save and Exit. 
 ---
 ### Step 10. Configure Prometheus
 - Add to `/etc/prometheus/prometheus.yml` the following entry:
+  
+ ```bash
+- job_name: 'jenkins'
+              metrics_path: '/prometheus'
+              basic_auth:
+                username: 'prometheus-user'
+                password: '123'
+              static_configs:
+                - targets: ["Jenkins-server-ip:8080"]
+```
+ 
 - This added to Prometheus Configuration using Ansible with other Jobs
+  
 - Give attention to the `metrics_path` it differes from application to another
+  
+
+- Navigate to Prometheus UI `Status` > `Targets` .. You can access the metrics here.
+
+![image](https://github.com/user-attachments/assets/51045993-e6f3-474f-8cb1-1bbf2ae74c82)
+---
+### Step 11. Configure Grafana
+- Navigate to Grafana UI > Enter the default username and password (admin/admin) > Create a new password
+  
+- At the Left Bar choose `Home` > `Connections` > Search for `Prometheus` in the search bar > `Add new data source` > Under `Connection` > Add the `Prometheus Server IP:9090`
+  
+- At the Left Bar choose `Home` > `Dashboards` > Choose `New` > `Import` > Use dashboard ID `9964` for Jenkins > Choose `Prometheus` > `Import`
+
+![image](https://github.com/user-attachments/assets/2ad185ab-ce93-4029-9f0a-3cb837f787d2)
+
 ```bash
 - job_name: 'jenkins'
               metrics_path: '/prometheus'
@@ -426,7 +463,6 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 - Navigate to Prometheus UI `Status` > `Targets` .. You can access the metrics here.
 
 ![image](https://github.com/user-attachments/assets/51045993-e6f3-474f-8cb1-1bbf2ae74c82)
-
 ### Step 9. Minikube Cluster
 - Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
 - SSH to the Ec2 and install Minikube like the following steps
