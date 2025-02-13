@@ -1,10 +1,11 @@
 
-![Gif1](https://github.com/user-attachments/assets/8a2bbb3c-8c89-4f4b-89ca-3ff40adcc768)
 
 # CloudDevOpsProject
 
 This repository contains the infrastructure, configuration, and deployment setup for a cloud-based application using DevOps principles. The project is structured to demonstrate the use of modern tools such as `Docker`, `Terraform`, `Ansible`, `Jenkins` and `Argocd` to achieve seamless CI/CD workflows and infrastructure as code.
 
+---
+![Gif1](https://github.com/user-attachments/assets/49567d33-5d6c-4016-bb56-9b496c107623)
 ---
 ## Table of Contents
 
