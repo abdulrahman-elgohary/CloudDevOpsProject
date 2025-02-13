@@ -466,10 +466,31 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 ### Step 12. EKS Cluster
 - Navigate to **[Terraform/eks Directory](./Terraform/eks)**
+  
 - Execute the following Command:
 ```bash
 terraform apply
 ```
+- From the output after provisioning use the `region` and `cluster_name` outputs to configure kubectl.
+
+- Run the following command to retrieve the access credentials for your cluster and configure kubectl.
+  
+```bash
+aws eks --region $(terraform output -raw region) update-kubeconfig \
+    --name $(terraform output -raw cluster_name)
+```
+
+#### You can now use kubectl to manage your cluster and deploy Kubernetes configurations to it
+
+- Use kubectl commands to verify your cluster configuration
+```bash
+$ kubectl cluster-info
+Kubernetes control plane is running at https://128CA2A0D737317D36E31D0D3A0C366B.gr7.us-east-2.eks.amazonaws.com
+CoreDNS is running at https://128CA2A0D737317D36E31D0D3A0C366B.gr7.us-east-2.eks.amazonaws.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
+```
+
+#### To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+
 ---
 ### Step 13: Create the Cluster resources
 - Create a file called `deployment.yml` and insert the following entries: **[deployment.yml content](./FinalProjectCode/deployment.yml)**
