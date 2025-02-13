@@ -489,7 +489,7 @@ Kubernetes control plane is running at https://128CA2A0D737317D36E31D0D3A0C366B.
 CoreDNS is running at https://128CA2A0D737317D36E31D0D3A0C366B.gr7.us-east-2.eks.amazonaws.com/api/v1/namespaces/kube-system/services/kube-dns:dns/proxy
 ```
 
-#### To further debug and diagnose cluster problems, use 'kubectl cluster-info dump'.
+#### To further debug and diagnose cluster problems, use `kubectl cluster-info dump`.
 
 ---
 ### Step 13: Create the Cluster resources
