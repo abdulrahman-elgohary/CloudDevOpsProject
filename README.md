@@ -20,7 +20,7 @@ This repository contains the infrastructure, configuration, and deployment setup
   - [**Step 9:** Configure Jenkins For Prometheus](#step-9-configure-jenkins-for-prometheus)
   - [**Step 10:** Configure Prometheus](#step-10-configure-prometheus)
   - [**Step 11:** Configure Grafana](#step-11-configure-grafana)
-  - [**Step 12:** Minikube Cluster](#step-12-minikube-cluster)
+  - [**Step 12:** EKS Cluster](#step-12-eks-cluster)
   - [**Step 13:** Create the Cluster resources](#step-13-create-the-cluster-resources)
   - [**Step 14:** Argocd Installation](#step-14-argocd-installation)
   - [**Step 15:** Argocd Configuration](#step-15-argocd-configuration)
@@ -464,56 +464,11 @@ sudo cat /var/lib/jenkins/secrets/initialAdminPassword
 
 ![image](https://github.com/user-attachments/assets/2ad185ab-ce93-4029-9f0a-3cb837f787d2)
 
-### Step 12. Minikube Cluster
-- Navigate to your `aws account` > `Ec2` > `Launch Ec2` > Choose `t2.large` size.
-- SSH to the Ec2 and install Minikube like the following steps
-
-  ![image](https://github.com/user-attachments/assets/9dfd1d45-2edc-42b4-8e4d-4b29b95d240f)
-
-9.1 **Upate the system**
-  
-  ```bash
-  sudo apt update
-  ```
-9.2 **Install Docker**
-
+### Step 12. EKS Cluster
+- Navigate to **[Terraform/eks Directory](./Terraform/eks)**
+- Execute the following Command:
 ```bash
-sudo apt install -y docker.io
-```
-9.3 **Add the user system to the docker group**
-
-```bash
-sudo usermod -aG docker $USER
-```
-9.4 **Download and Install Minikube**
-
-  ```bash
-  curl -LO https://storage.googleapis.com/minikube/releases/latest/minikube-linux-amd64
-  ```
-- Move the binary for global access
-
-  ```bash
-  sudo install minikube-linux-amd64 /usr/local/bin/minikube
-  ```
-- Start Minikube
-
-  ```bash
-  minikube start --driver=docker
-  ```
-9.5 **Install Kubectl** 
-
-```bash
-curl -LO "https://dl.k8s.io/release/$(curl -L -s https://dl.k8s.io/release/stable.txt)/bin/linux/amd64/kubectl"
-chmod +x kubectl
-sudo mv kubectl /usr/local/bin/
-kubectl version --client
-```
-9.6 **Install Kubectl Compeletion**
-
-```bash
-sudo apt-get install -y bash-completion
-source <(kubectl completion bash)
-source ~/.bashrc
+terraform apply
 ```
 ---
 ### Step 13: Create the Cluster resources
